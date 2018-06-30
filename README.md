@@ -16,6 +16,8 @@ Typescript support like intellisense.
 
 To see all examples, please visit [./test/basic.test.ts](./test/basic.test.ts)
 
+Hacker news
+
 ```typescript
 import { scrap, Q } from 'scrapq';
 
@@ -43,6 +45,39 @@ console.log(data);
 // }
 ```
 
+Custom
+
+```typescript
+import { scrap, Q } from 'scrapq';
+
+const STR_TO_SCRAP = `
+    <h1 class="title">Hello</h1>
+    <ul>
+        <li><span>Guten Tag</span></li>
+        <li><span>Ciao</span></li>
+        <li><span>Bonjour</span></li>
+    </ul>
+`;
+
+const result = scrap(STR_TO_SCRAP, {
+    title: Q.text('h1.title'),
+    items: Q.list('li', {
+        text: Q.text('span')
+    })
+});
+
+console.log(result);
+// {
+//   title: 'Hello',
+//   items: [
+//      { text: 'Guten Tag' },
+//      { text: 'Ciao' },
+//      { text: 'Bonjour' }
+//   ]
+// }
+
+```
+
 ## API
 
 `scrap(html: string, query: Query)`
@@ -57,6 +92,10 @@ get text from an element
 `Q.attr(selector: string, htmlAttribute: string)`
 
 get attribute from an element
+
+`Q.html(selector: string)`
+
+get html
 
 `Q.list(selector: string, query: Query)`
 
