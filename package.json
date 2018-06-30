@@ -2,7 +2,8 @@
   "name": "scrapq",
   "version": "1.0.0",
   "description": "Lightweight Typescript library for scrapping html",
-  "main": "./lib/Index.ts",
+  "main": "./dist/Index.js",
+  "typings": "./dist/Index.d.ts",
   "scripts": {
     "test": "jasmine-ts ./test/*.test.ts",
     "build": "tsc",
