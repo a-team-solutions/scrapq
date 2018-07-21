@@ -1,5 +1,5 @@
 import { load } from "cheerio";
-import { Attr, Html, List, Text, QueryData } from "./type";
+import { Attr, Html, List, Text, QueryData, Exists } from "./type";
 
 type Query = QueryData;
 
@@ -19,7 +19,7 @@ const scrapObject = <Q extends QueryData>(
 		switch (val.type) {
 			case "TEXT": {
 				if (val.selector === "") {
-					// Get text from root item
+					// Get text from root element
 					ref[prop] = $(context).text();
 				} else {
 					const el = $(val.selector, context);
@@ -29,6 +29,7 @@ const scrapObject = <Q extends QueryData>(
 			}
 			case "ATTR": {
                 if (val.selector === "") {
+					// Get attribute from root element
                     ref[prop] = $(context).attr(val.attribute);
                 } else {
                     const el = $(val.selector, context);
@@ -38,13 +39,20 @@ const scrapObject = <Q extends QueryData>(
             }
             case 'HTML': {
                 if (val.selector === "") {
+					// Get html from root element
                     ref[prop] = $(context).html();
                 } else {
                     const el = $(val.selector, context);
                     ref[prop] = el.html();
                 }
                 break;
-            }
+			}
+			case "EXISTS": {
+				// TODO: selector cannot be ""
+				const el = $(val.selector, context);
+				ref[prop] = el.length > 0 ? true : false;
+				break;
+			}
 			case "LIST": {
 				const result: GetTypeFromQuery<typeof val.data>[] = [];
 				const els = $(val.selector);
@@ -102,10 +110,20 @@ export const Q = {
      * @param selector - css selector
      */
     html: (selector: string): Html<DefaultFn> => ({
-        type: 'HTML',
+        type: "HTML",
         selector,
         convert: (data) => data
-    }),
+	}),
+
+	/**
+	 * Check if element exists
+	 * @param selector - css selector
+	 */
+	exists: (selector: string): Exists => ({
+		type: "EXISTS",
+		selector,
+		convert: true
+	}),
 
 	/**
      * Get list of items

@@ -4,13 +4,13 @@
 [![Build Status](https://travis-ci.org/dderevjanik/scrapq.svg?branch=master)](https://travis-ci.org/dderevjanik/scrapq)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-Lightweight Typescript library for scrapping html.
+Lightweight Typescript library for scrapping html with **type inference**.
 
 ## About
 
 There are plenty scrapping libs out there, but only few with full Typescript support - Typescript will infer type based
-on your query. This is small library with only one purpuse to provide scrapping in human readable format with full
-Typescript support like intellisense.
+on your query. This is small library with only one purpose to provide scrapping in human readable format with full
+Typescript support like intellisense and type inference.
 
 ## Examples
 
@@ -95,6 +95,10 @@ get attribute from an element
 `Q.html(selector: string)`
 
 get html
+
+`Q.exists(selector: string)`
+
+get `true/false` if element exists
 
 `Q.list(selector: string, query: Query)`
 

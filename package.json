@@ -1,6 +1,6 @@
 {
   "name": "scrapq",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Lightweight Typescript library for scrapping html",
   "main": "./dist/Index.js",
   "typings": "./dist/Index.d.ts",

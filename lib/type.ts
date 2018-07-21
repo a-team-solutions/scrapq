@@ -3,7 +3,8 @@ export type ConvertFn<R> = (data: string) => R;
 export type QueryData = {
     [property: string]: Text<ConvertFn<any>>
         | Attr<ConvertFn<any>>
-        | Html<ConvertFn<any>>
+		| Html<ConvertFn<any>>
+		| Exists
         | List<any>;
 };
 
@@ -40,3 +41,12 @@ export type Html<C extends ConvertFn<any>> = {
 	// ---Additional---
 	selector: string;
 };
+
+
+export type Exists = {
+	// --- Internal ---
+	type: "EXISTS",
+	convert: boolean,
+	// ---Additional---
+	selector: string;
+}
