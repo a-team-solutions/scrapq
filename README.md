@@ -88,7 +88,6 @@ console.log(result);
 
 get text from an element
 
-
 `Q.attr(selector: string, htmlAttribute: string)`
 
 get attribute from an element

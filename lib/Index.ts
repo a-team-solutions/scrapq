@@ -1,45 +1,13 @@
 import { load } from "cheerio";
-
-type QueryData = {
-	[property: string]: Text | Attr | Html | List<any>;
-};
-
-type Text = {
-	// --- Internal ---
-	type: "TEXT";
-	result: string;
-	// ---Additional---
-	selector: string;
-};
-
-type Attr = {
-	type: "ATTR";
-	result: string;
-
-	attribute: string;
-	selector: string;
-};
-
-type List<T extends object> = {
-	// --- Internal ---
-	type: "LIST";
-	result: Array<T>;
-	// ---Additional---
-	selector: string;
-	data: QueryData;
-};
-
-type Html = {
-	// --- Internal ---
-	type: "HTML";
-	result: string;
-	// ---Additional---
-	selector: string;
-};
+import { Attr, Html, List, Text, QueryData } from "./type";
 
 type Query = QueryData;
 
-type GetTypeFromQuery<Q extends QueryData> = { [P in keyof Q]: Q[P]["result"] };
+type GetTypeFromQuery<Q extends QueryData> = {
+	[P in keyof Q]: Q[P]["convert"] extends (data: string) => infer R
+		? R
+		:Q[P]["convert"]
+};
 
 const scrapObject = <Q extends QueryData>(
 	$: CheerioStatic,
@@ -105,33 +73,38 @@ export const scrap = <Q extends Query>(
 	return result as GetTypeFromQuery<Q>;
 };
 
+type DefaultFn = (data: string) => string;
 export const Q = {
 	/**
      * Get inner text
 	 * @param selector - css selector
 	 */
-	text: (selector: string): Text => ({ type: "TEXT", selector, result: "" }),
+	text: (selector: string): Text<DefaultFn> => ({
+		type: "TEXT",
+		selector,
+		convert: (data) => data
+	}),
 
 	/**
      * Get html attribute
 	 * @param selector - css selector
 	 * @param attribute - html attribute to scrap
 	 */
-	attr: (selector: string, attribute: string): Attr => ({
+	attr: (selector: string, attribute: string): Attr<DefaultFn> => ({
 		type: "ATTR",
 		selector,
-		result: "",
+		convert: (data) => data,
 		attribute
     }),
-    
+
     /**
      * Get html content
      * @param selector - css selector
      */
-    html: (selector: string): Html => ({
+    html: (selector: string): Html<DefaultFn> => ({
         type: 'HTML',
         selector,
-        result: ""
+        convert: (data) => data
     }),
 
 	/**
@@ -142,5 +115,5 @@ export const Q = {
 	list: <Q extends QueryData>(
 		selector: string,
 		data: Q
-	): List<GetTypeFromQuery<Q>> => ({ type: "LIST", result: [], selector, data })
+	): List<GetTypeFromQuery<Q>> => ({ type: "LIST", convert: [], selector, data })
 };

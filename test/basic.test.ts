@@ -14,14 +14,14 @@ describe('Basic', () => {
     it('should scrap <h1/> text from string', () => {
         const result = scrap(STR_TO_SCRAP, {
             title: Q.text('h1.title')
-        });
+		});
         expect(result).toEqual({ title: 'Hello'});
     });
-    
+
     it('should scrap attributes from <h1/>', () => {
         const result = scrap(STR_TO_SCRAP, {
             title: Q.attr('h1.title', 'class')
-        });
+		});
         expect(result).toEqual({ title: 'title'});
     });
 
