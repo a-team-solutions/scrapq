@@ -1,4 +1,4 @@
-import { scrap, Q } from '../lib/Index';
+import { scrap, Q } from '../lib';
 
 const STR_TO_SCRAP = `
     <h1 class="title">Hello</h1>
@@ -14,7 +14,7 @@ describe('Basic', () => {
     it('should scrap <h1/> text from string', () => {
         const result = scrap(STR_TO_SCRAP, {
             title: Q.text('h1.title')
-		});
+        });
         expect(result).toEqual({ title: 'Hello'});
     });
 

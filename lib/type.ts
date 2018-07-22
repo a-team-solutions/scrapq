@@ -1,12 +1,15 @@
 export type ConvertFn<R> = (data: string) => R;
 
 export type QueryData = {
-    [property: string]: Text<ConvertFn<any>>
-        | Attr<ConvertFn<any>>
-		| Html<ConvertFn<any>>
-		| Exists
-        | List<any>;
+    [property: string]: QueryType
 };
+
+export type QueryType = Text<ConvertFn<any>>
+	| Attr<ConvertFn<any>>
+	| Html<ConvertFn<any>>
+	| Exists
+	| List<any>
+	| If<any, any>;
 
 export type Text<C extends ConvertFn<any>> = {
 	// --- Internal ---
@@ -25,6 +28,14 @@ export type Attr<C extends ConvertFn<any>> = {
 	selector: string;
 };
 
+export type Html<C extends ConvertFn<any>> = {
+	// --- Internal ---
+	type: "HTML";
+	convert: C;
+	// ---Additional---
+	selector: string;
+};
+
 export type List<T extends object> = {
 	// --- Internal ---
 	type: "LIST";
@@ -34,14 +45,16 @@ export type List<T extends object> = {
 	data: QueryData;
 };
 
-export type Html<C extends ConvertFn<any>> = {
+export type If<Q1 extends QueryType, Q2 extends QueryType> = {
 	// --- Internal ---
-	type: "HTML";
-	convert: C;
+	type: "IF",
+	convert: Q1 | Q2;
 	// ---Additional---
-	selector: string;
-};
-
+	condition: (el: Cheerio) => boolean,
+	truthy: Q1,
+	falsey: Q2
+	// selector: string;
+}
 
 export type Exists = {
 	// --- Internal ---
