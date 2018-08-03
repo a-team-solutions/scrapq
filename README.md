@@ -103,3 +103,7 @@ get `true/false` if element exists
 `Q.list(selector: string, query: Query | QueryType)`
 
 get list of items
+
+`Q.if(selector: string, condition: (el) => boolean, truthy: Query, falsey: Query)`
+
+get query based on condition

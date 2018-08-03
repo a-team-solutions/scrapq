@@ -13,8 +13,10 @@ import { htmlCreator as html } from './selectors/html';
 import { listCreator as list } from './selectors/list';
 import { textCreator as text } from './selectors/text';
 import { selectCreator as select } from "./selectors/select";
+import { ifCreator as If } from './controls/if';
 
 export const Q = {
+	If,
 	attr,
 	exists,
 	html,

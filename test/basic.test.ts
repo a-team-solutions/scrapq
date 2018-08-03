@@ -99,5 +99,12 @@ describe('Basic', () => {
         ])
     });
 
+    it('should test if', () => {
+        const result = scrap(STR_TO_SCRAP, {
+            title: Q.If('.title', (el) => !!el, Q.text(''), Q.text('.msg'))
+        })
+        console.log(result);
+    })
+
 });
 
