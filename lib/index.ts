@@ -1,87 +1,48 @@
 import { load } from "cheerio";
-import { Attr, Html, List, Text, QueryData, Exists, If, QueryType } from "./type";
+import { QueryData, QueryType, GetTypeFromQuery } from "./types";
+import { Attr, attrResolve } from './selectors/attr';
+import { Exists, existsResolve } from './selectors/exists';
+import { Html, htmlResolve } from './selectors/html';
+import { List, listResolve } from './selectors/list';
+import { Text, textResolve } from './selectors/text';
+import { Select, selectResolve } from "./selectors/select";
 
-type Query = QueryData;
+export type ScrapType = ($: CheerioStatic, queryType: QueryType, context: string) => any;
 
-type GetTypeFromQueryType<Q extends QueryType> = Q["convert"] extends (data: string) => infer R
-	? R
-	: Q["convert"]
-
-type GetTypeFromQuery<Q extends QueryData> = {
-	[P in keyof Q]: GetTypeFromQueryType<Q[P]>
-};
-
-function scrapType($: CheerioStatic, queryType: QueryType, context: string): any {
+const scrapType: ScrapType =  ($: CheerioStatic, queryType: QueryType, context: string) => {
 	switch (queryType.type) {
-		case "TEXT": {
-			if (queryType.selector === "") {
-				// Get text from root element
-				return $(context).text();
-			} else {
-				const el = $(queryType.selector, context);
-				return el.text();
-			}
-		}
-		case "ATTR": {
-			if (queryType.selector === "") {
-				// Get attribute from root element
-				return $(context).attr(queryType.attribute);
-			} else {
-				const el = $(queryType.selector, context);
-				return el.attr(queryType.attribute);
-			}
-		}
-		case 'HTML': {
-			if (queryType.selector === "") {
-				// Get html from root element
-				return $(context).html();
-			} else {
-				const el = $(queryType.selector, context);
-				return el.html();
-			}
-		}
-		case "EXISTS": {
-			// TODO: selector cannot be ""
-			const el = $(queryType.selector, context);
-			return el.length > 0 ? true : false;
-		}
-		case "LIST": {
-			const result: GetTypeFromQuery<typeof queryType.data>[] = [];
-			const els = $(queryType.selector);
-			for (let i = 0; i < els.length; i++) {
-				const el = els.eq(i);
-				const scrapedData = scrapObject($, el as any, queryType.data, {});
-				result.push(scrapedData);
-			}
-			return result;
-		}
-		// case "IF": {
-		// 	const el = $(queryType);
-		// 	if (queryType.condition(el)) {
-		// 		return scrapType($, queryType.truthy, context)
-		// 	} else {
-		// 		return scrapType($, queryType.falsey, context)
-		// 	}
-		// }
+		case "TEXT": return textResolve($, context, queryType)
+		case "ATTR": return attrResolve($, context, queryType)
+		case 'HTML': return htmlResolve($, context, queryType)
+		case "EXISTS": return existsResolve($, context, queryType)
+		case "LIST": return listResolve($, queryType, scrapObject)
+		case "SELECT": return selectResolve($, context, queryType)
 		default: {
 			throw new Error(`Unexpected property type '${queryType}'`);
 		}
 	}
 }
 
-function scrapObject <Q extends QueryData>(
+export type ScrapObject = <Q extends QueryData>(
 	$: CheerioStatic,
 	context: string,
 	queryData: Q,
 	ref: any // object
-): GetTypeFromQuery<Q> {
+) => GetTypeFromQuery<Q>;
+
+const scrapObject: ScrapObject =  <Q extends QueryData>(
+	$: CheerioStatic,
+	context: string,
+	queryData: Q,
+	ref: any // object
+): GetTypeFromQuery<Q> => {
 	Object.entries(queryData).forEach(([prop, val]) => {
 		ref[prop] = scrapType($, val, context);
 	});
 	return ref as GetTypeFromQuery<Q>;
 };
 
-export function scrap <Q extends Query>(
+export function scrap <Q extends QueryData>(
 	html: string,
 	query: Q
 ): GetTypeFromQuery<Q> {
@@ -96,10 +57,10 @@ export const Q = {
      * Get inner text
 	 * @param selector - css selector
 	 */
-	text: (selector: string): Text<DefaultFn> => ({
+	text: (selector: string): Text => ({
 		type: "TEXT",
 		selector,
-		convert: (data) => data
+		convert: ''
 	}),
 
 	/**
@@ -107,10 +68,10 @@ export const Q = {
 	 * @param selector - css selector
 	 * @param attribute - html attribute to scrap
 	 */
-	attr: (selector: string, attribute: string): Attr<DefaultFn> => ({
+	attr: (selector: string, attribute: string): Attr => ({
 		type: "ATTR",
 		selector,
-		convert: (data) => data,
+		convert: '',
 		attribute
     }),
 
@@ -118,10 +79,10 @@ export const Q = {
      * Get html content
      * @param selector - css selector
      */
-    html: (selector: string): Html<DefaultFn> => ({
+    html: (selector: string): Html => ({
         type: "HTML",
         selector,
-        convert: (data) => data
+        convert: "string"
 	}),
 
 	/**
@@ -132,6 +93,12 @@ export const Q = {
 		type: "EXISTS",
 		selector,
 		convert: true
+	}),
+
+	select: <C extends (el: Cheerio) => any>(selector: string, convert: C): Select<C> => ({
+		type: "SELECT",
+		convert: convert,
+		selector: selector
 	}),
 
 	/**

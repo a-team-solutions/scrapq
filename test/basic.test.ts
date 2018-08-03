@@ -81,5 +81,12 @@ describe('Basic', () => {
         expect(result.items[2].text).toBe('Bonjour')
     });
 
+    it('should user custom selector', () => {
+        const result = scrap(STR_TO_SCRAP, {
+            title: Q.select('h1', (el) => el.text())
+        });
+        expect(result.title).toBe('Hello');
+    });
+
 });
 
