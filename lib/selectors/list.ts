@@ -10,13 +10,17 @@ export type List<T extends object> = {
 	data: QueryData;
 };
 
-export const listResolve = <Q extends object>($: CheerioStatic, queryType: List<Q>, scrapObject: ScrapObject) => {
-    const result: GetTypeFromQuery<typeof queryType.data>[] = [];
-    const els = $(queryType.selector);
-    for (let i = 0; i < els.length; i++) {
-        const el = els.eq(i);
-        const scrapedData = scrapObject($, el as any, queryType.data, {});
-        result.push(scrapedData);
-    }
-    return result;
-}
+export const listResolve = <Q extends object>(
+	$: CheerioStatic,
+	queryType: List<Q>,
+	scrapObject: ScrapObject
+) => {
+	const result: GetTypeFromQuery<typeof queryType.data>[] = [];
+	const els = $(queryType.selector);
+	for (let i = 0; i < els.length; i++) {
+		const el = els.eq(i);
+		const scrapedData = scrapObject($, el as any, queryType.data, {});
+		result.push(scrapedData);
+	}
+	return result;
+};

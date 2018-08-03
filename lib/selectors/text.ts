@@ -6,7 +6,11 @@ export type Text = {
 	selector: string;
 };
 
-export const textResolve = ($: CheerioStatic, context: string, queryType: Text) => {
+export const textResolve = (
+	$: CheerioStatic,
+	context: string,
+	queryType: Text
+) => {
 	if (queryType.selector === "") {
 		// Get text from root element
 		return $(context).text();
@@ -14,4 +18,4 @@ export const textResolve = ($: CheerioStatic, context: string, queryType: Text) 
 		const el = $(queryType.selector, context);
 		return el.text();
 	}
-}
+};
