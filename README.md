@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/dderevjanik/scrapq.svg?branch=master)](https://travis-ci.org/dderevjanik/scrapq)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-Lightweight Typescript library for scrapping html with **type inference**.
+Lightweight Typescript library for scrapping html with **type inference** and **intellisense**.
 
 ## About
 
@@ -100,6 +100,6 @@ get html
 
 get `true/false` if element exists
 
-`Q.list(selector: string, query: Query)`
+`Q.list(selector: string, query: Query | QueryType)`
 
 get list of items

@@ -19,3 +19,13 @@ export const htmlResolve = (
 		return el.html();
 	}
 };
+
+/**
+ * Get html content
+ * @param selector - css selector
+ */
+export const htmlCreator = (selector: string): Html => ({
+	type: "HTML",
+	selector,
+	convert: "string"
+});

@@ -15,3 +15,13 @@ export const existsResolve = (
 	const el = $(queryType.selector, context);
 	return el.length > 0 ? true : false;
 };
+
+/**
+ * Check if element exists
+ * @param selector - css selector
+ */
+export const existsCreator = (selector: string): Exists => ({
+	type: "EXISTS",
+	selector,
+	convert: true
+});

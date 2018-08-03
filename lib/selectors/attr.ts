@@ -20,3 +20,15 @@ export const attrResolve = (
 		return el.attr(queryType.attribute);
 	}
 };
+
+/**
+ * Get html attribute
+ * @param selector - css selector
+ * @param attribute - html attribute to scrap
+ */
+export const attrCreator = (selector: string, attribute: string): Attr => ({
+	type: "ATTR",
+	selector,
+	convert: '',
+	attribute
+});

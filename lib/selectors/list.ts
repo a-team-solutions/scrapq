@@ -1,5 +1,5 @@
-import { QueryData, GetTypeFromQuery } from "../types";
-import { ScrapObject } from "..";
+import { Query, Selector, TypeOfQuery, TypeOfSelector } from "../types";
+import { ScrapQuery, ScrapSelector } from "../scrapper";
 
 export type List<T extends object> = {
 	// --- Internal ---
@@ -7,20 +7,40 @@ export type List<T extends object> = {
 	convert: Array<T>;
 	// ---Additional---
 	selector: string;
-	data: QueryData;
+	data: Query | Selector;
 };
 
 export const listResolve = <Q extends object>(
 	$: CheerioStatic,
+	context: string,
 	queryType: List<Q>,
-	scrapObject: ScrapObject
+	scrapQuery: ScrapQuery,
+	ScrapSelector: ScrapSelector
 ) => {
-	const result: GetTypeFromQuery<typeof queryType.data>[] = [];
-	const els = $(queryType.selector);
+	const result: any[] = [];
+	const els = $(queryType.selector, context);
 	for (let i = 0; i < els.length; i++) {
 		const el = els.eq(i);
-		const scrapedData = scrapObject($, el as any, queryType.data, {});
+		const scrapedData = !queryType.data.type
+			? // TODO: Fix me, el should be string, not any!
+			  scrapQuery($, el as any, queryType.data as Query, {})
+			: ScrapSelector($, queryType.data as Selector, el as any);
 		result.push(scrapedData);
 	}
 	return result;
 };
+
+/**
+ * Get list of items
+ * @param selector - css selector for list of items
+ * @param data - query per item
+ */
+export const listCreator = <Q extends Query | Selector>(
+	selector: string,
+	data: Q
+): List<Q extends Query
+	? TypeOfQuery<Q>
+	: Q extends Selector
+		? TypeOfSelector<Q>
+		: never
+> => ({ type: "LIST", convert: [], selector, data });

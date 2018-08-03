@@ -19,3 +19,13 @@ export const textResolve = (
 		return el.text();
 	}
 };
+
+/**
+ * Get inner text
+ * @param selector - css selector
+ */
+export const  textCreator = (selector: string): Text => ({
+	type: "TEXT",
+	selector,
+	convert: ''
+});

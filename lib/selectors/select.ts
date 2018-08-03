@@ -18,3 +18,9 @@ export const selectResolve = <C extends (el: Cheerio) => any>(
 		return queryType.convert(el);
 	}
 };
+
+export const selectCreator = <C extends (el: Cheerio) => any>(selector: string, convert: C): Select<C> => ({
+	type: "SELECT",
+	convert: convert,
+	selector: selector
+});

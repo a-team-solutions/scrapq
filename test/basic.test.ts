@@ -81,11 +81,22 @@ describe('Basic', () => {
         expect(result.items[2].text).toBe('Bonjour')
     });
 
-    it('should user custom selector', () => {
+    it('should use custom selector', () => {
         const result = scrap(STR_TO_SCRAP, {
             title: Q.select('h1', (el) => el.text())
         });
         expect(result.title).toBe('Hello');
+    });
+
+    it('should get list of texts', () => {
+        const result = scrap(STR_TO_SCRAP, {
+            texts: Q.list('li', Q.text('span'))
+        })
+        expect(result.texts).toEqual([
+            'Guten Tag',
+            'Ciao',
+            'Bonjour'
+        ])
     });
 
 });
