@@ -1,5 +1,7 @@
 export { Query, Selector, TypeOfSelector, TypeOfQuery } from './types';
 export { ScrapQuery, ScrapSelector, scrap } from './scrapper';
+
+// Export
 export { attrCreator as attr } from './selectors/attr';
 export { existsCreator as exists } from './selectors/exists';
 export { htmlCreator as html } from './selectors/html';
@@ -9,6 +11,7 @@ export { selectCreator as select } from "./selectors/select";
 export { countCreator as count } from "./selectors/count";
 export { linkCreator as link } from "./selectors/link";
 
+// Import
 import { attrCreator as attr } from './selectors/attr';
 import { existsCreator as exists } from './selectors/exists';
 import { htmlCreator as html } from './selectors/html';

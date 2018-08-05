@@ -1,11 +1,13 @@
 {
   "name": "scrapq",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Lightweight Typescript library for scrapping html",
   "main": "./dist/index.js",
   "typings": "./dist/Index.d.ts",
   "scripts": {
-    "test": "jasmine-ts ./test/*.test.ts",
+    "test": "npm run test:basic && npm run test:exhaustive",
+    "test:basic": "jasmine-ts ./test/*.test.ts",
+    "test:exhaustive": "jasmine-ts ./test/**/*.ts",
     "build": "tsc",
     "prettify": "prettier --write ./lib/**/*.ts"
   },

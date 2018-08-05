@@ -38,6 +38,10 @@ export type TypeOf<Q extends Query | Selector> = Q extends Query
 		? TypeOfSelector<Selector>
 		: never;
 
+/**
+ * Test if query is Selector
+ * @param q
+ */
 export function isSelector(q: Query | Selector): q is Selector {
 	return !!q.type;
 }

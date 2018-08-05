@@ -50,6 +50,11 @@ const scrapQuery: ScrapQuery =  <Q extends Query>(
 	return ref as TypeOfQuery<Q>;
 };
 
+/**
+ * Scrap based on query
+ * @param html - html to scrap
+ * @param query - query to use
+ */
 export function scrap <Q extends Query>(
 	html: string,
 	query: Q

@@ -23,6 +23,7 @@ export const listResolve = <Q extends object>(
 	for (let i = 0; i < els.length; i++) {
 		const el = els.eq(i);
 		if (queryType.predicate) {
+			// If list has predicate, test every element
 			if (queryType.predicate(el, i)) {
 				const scrapedData = isSelector(queryType.data)
 					? scrapSelector($, el, queryType.data)

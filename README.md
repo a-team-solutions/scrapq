@@ -58,13 +58,15 @@ const STR_TO_SCRAP = `
         <li><span>Ciao</span></li>
         <li><span>Bonjour</span></li>
     </ul>
+    <a class="link" href="/read-more">read more ...</a>
 `;
 
 const result = scrap(STR_TO_SCRAP, {
     title: Q.text('h1.title'),
-    items: Q.list('li', {
+    items: Q.list('ul>li', {
         text: Q.text('span')
-    })
+    }),
+    link: Q.link('a.link')
 });
 
 console.log(result);
@@ -77,6 +79,20 @@ console.log(result);
 //   ]
 // }
 
+```
+
+or just
+
+```typescript
+import { text, list, link } from 'scrapq';
+
+const result = scrap(STR_TO_SCRAP, {
+    title: text('h1.title'),
+    items: list('ul>li', {
+        text: text('span')
+    }),
+    link: link('a.link')
+});
 ```
 
 ## API
