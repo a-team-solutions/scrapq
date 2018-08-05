@@ -16,6 +16,10 @@ export const countResolve = (
     return els.length;
 }
 
+/**
+ * Count elements
+ * @param selector - css selector
+ */
 export const countCreator = (selector: string): Count => ({
     type: "COUNT",
     selector,

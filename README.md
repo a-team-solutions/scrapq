@@ -101,7 +101,7 @@ get html
 
 get `true/false` if element exists
 
-`Q.list(selector: string, query: Query | QueryType): Array<query>`
+`Q.list(selector: string, query: Query | QueryType, predicate?): Array<query>`
 
 get list of items
 

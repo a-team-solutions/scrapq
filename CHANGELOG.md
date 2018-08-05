@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Added support for nested queries
 - Added `count` selector that returns number of elements
 - Added `link` selector that returns `href` from an element
+- Added `predicate` callback to `list` to filter elements
 
 ## [1.0.2] - 2018-08-03
 

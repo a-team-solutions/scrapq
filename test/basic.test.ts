@@ -139,4 +139,13 @@ describe('Basic', () => {
         expect(result.link).toBeUndefined();
     });
 
+    it('should use predicate filter on list selector', () => {
+        const result = scrap(STR_TO_SCRAP, {
+            items: Q.list('span', {
+                msg: Q.text('')
+            }, (el) => el.hasClass('msg'))
+        });
+        expect(result.items[0].msg).toBe('Ciao');
+    });
+
 });
