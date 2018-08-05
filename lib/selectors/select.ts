@@ -8,7 +8,7 @@ export type Select<C extends (el: Cheerio) => any> = {
 
 export const selectResolve = <C extends (el: Cheerio) => any>(
 	$: CheerioStatic,
-	context: string,
+	context: Cheerio,
 	queryType: Select<any>
 ) => {
 	if (queryType.selector === "") {

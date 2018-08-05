@@ -8,7 +8,7 @@ export type Link = {
 
 export const linkResolve = (
 	$: CheerioStatic,
-	context: string,
+	context: Cheerio,
 	queryType: Link
 ) => {
 	if (queryType.selector === "") {

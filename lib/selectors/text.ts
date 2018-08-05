@@ -8,7 +8,7 @@ export type Text = {
 
 export const textResolve = (
 	$: CheerioStatic,
-	context: string,
+	context: Cheerio,
 	queryType: Text
 ) => {
 	if (queryType.selector === "") {

@@ -12,19 +12,18 @@ export type List<T extends object> = {
 
 export const listResolve = <Q extends object>(
 	$: CheerioStatic,
-	context: string,
+	context: Cheerio,
 	queryType: List<Q>,
 	scrapQuery: ScrapQuery,
-	ScrapSelector: ScrapSelector
+	scrapSelector: ScrapSelector
 ) => {
 	const result: any[] = [];
 	const els = $(queryType.selector, context);
 	for (let i = 0; i < els.length; i++) {
 		const el = els.eq(i);
 		const scrapedData = isSelector(queryType.data)
-			 // TODO: Fix me, el should be string, not any!
-			? ScrapSelector($, queryType.data as Selector, el as any)
-			: scrapQuery($, el as any, queryType.data as Query, {});
+			? scrapSelector($, el, queryType.data)
+			: scrapQuery($, el, queryType.data, {});
 		result.push(scrapedData);
 	}
 	return result;

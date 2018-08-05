@@ -8,7 +8,7 @@ export type Count = {
 
 export const countResolve = (
     $: CheerioStatic,
-    context: string,
+    context: Cheerio,
     queryType: Count
 ) => {
     // TODO: cannot reference itself !

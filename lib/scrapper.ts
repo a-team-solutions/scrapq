@@ -9,9 +9,9 @@ import { selectResolve } from "./selectors/select";
 import { countResolve } from "./selectors/count";
 import { linkResolve } from "./selectors/link";
 
-export type ScrapSelector = ($: CheerioStatic, queryType: Selector, context: string) => any;
+export type ScrapSelector = ($: CheerioStatic, context: Cheerio, queryType: Selector) => any;
 
-const scrapSelector: ScrapSelector =  ($: CheerioStatic, queryType: Selector, context: string) => {
+const scrapSelector: ScrapSelector =  ($: CheerioStatic, context: Cheerio, queryType: Selector) => {
 	switch (queryType.type) {
 		case "TEXT": return textResolve($, context, queryType);
 		case "ATTR": return attrResolve($, context, queryType);
@@ -29,20 +29,20 @@ const scrapSelector: ScrapSelector =  ($: CheerioStatic, queryType: Selector, co
 
 export type ScrapQuery = <Q extends Query>(
 	$: CheerioStatic,
-	context: string,
+	context: Cheerio,
 	queryData: Q,
 	ref: any // object
 ) => TypeOfQuery<Q>;
 
 const scrapQuery: ScrapQuery =  <Q extends Query>(
 	$: CheerioStatic,
-	context: string,
+	context: Cheerio,
 	queryData: Q,
 	ref: any // object
 ): TypeOfQuery<Q> => {
 	Object.entries(queryData).forEach(([prop, val]) => {
 		if (isSelector(val)) {
-			ref[prop] = scrapSelector($, val, context);
+			ref[prop] = scrapSelector($, context, val);
 		} else {
 			ref[prop] = scrapQuery($, context, val, {});
 		}
@@ -55,6 +55,7 @@ export function scrap <Q extends Query>(
 	query: Q
 ): TypeOfQuery<Q> {
 	const $ = load(html);
-	const result = scrapQuery($, "", query, {});
+	const root = $.root();
+	const result = scrapQuery($, root, query, {});
 	return result as TypeOfQuery<Q>;
 };

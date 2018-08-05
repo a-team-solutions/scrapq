@@ -8,7 +8,7 @@ export type Html = {
 
 export const htmlResolve = (
 	$: CheerioStatic,
-	context: string,
+	context: Cheerio,
 	queryType: Html
 ) => {
 	if (queryType.selector === "") {
