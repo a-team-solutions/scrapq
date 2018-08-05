@@ -85,26 +85,26 @@ console.log(result);
 
 ### Query
 
-`Q.text(selector: string)`
+`Q.text(selector: string): string`
 
 get text from an element
 
-`Q.attr(selector: string, htmlAttribute: string)`
+`Q.attr(selector: string, htmlAttribute: string): string`
 
 get attribute from an element
 
-`Q.html(selector: string)`
+`Q.html(selector: string): string`
 
 get html
 
-`Q.exists(selector: string)`
+`Q.exists(selector: string): boolean`
 
 get `true/false` if element exists
 
-`Q.list(selector: string, query: Query | QueryType)`
+`Q.list(selector: string, query: Query | QueryType): Array<query>`
 
 get list of items
 
-`Q.count(selector: string)`
+`Q.count(selector: string): number`
 
 get elements count

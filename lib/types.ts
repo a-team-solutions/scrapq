@@ -5,6 +5,7 @@ import { List } from './selectors/list';
 import { Select } from './selectors/select';
 import { Text } from './selectors/text';
 import { Count } from './selectors/count';
+import { Link } from './selectors/link';
 
 export type Query = {
     [property: string]: Selector | Query;
@@ -16,7 +17,8 @@ export type Selector = Attr
 	| List<any>
 	| Select<any>
 	| Text
-	| Count;
+	| Count
+	| Link;
 
 export type TypeOfSelector<Q extends Selector> = Q["convert"] extends (data: any) => infer R
 	? R

@@ -7,6 +7,7 @@ const STR_TO_SCRAP = `
         <li><span class="msg">Ciao</span></li>
         <li><span>Bonjour</span></li>
     </ul>
+    <a href="/read-more">read more ...</a>
 `;
 
 describe('Basic', () => {
@@ -124,5 +125,18 @@ describe('Basic', () => {
         expect(result.spanCount).toBe(0);
     });
 
-});
+    it('should get link from an <a/> element', () => {
+        const result = scrap(STR_TO_SCRAP, {
+            link: Q.link('a')
+        });
+        expect(result.link).toBe('/read-more');
+    });
 
+    it('should not get link from non-existing element', () => {
+        const result = scrap(STR_TO_SCRAP, {
+            link: Q.link('tr')
+        });
+        expect(result.link).toBeUndefined();
+    });
+
+});

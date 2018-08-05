@@ -7,6 +7,7 @@ export { listCreator as list } from './selectors/list';
 export { textCreator as text } from './selectors/text';
 export { selectCreator as select } from "./selectors/select";
 export { countCreator as count } from "./selectors/count";
+export { linkCreator as link } from "./selectors/link";
 
 import { attrCreator as attr } from './selectors/attr';
 import { existsCreator as exists } from './selectors/exists';
@@ -15,6 +16,7 @@ import { listCreator as list } from './selectors/list';
 import { textCreator as text } from './selectors/text';
 import { selectCreator as select } from "./selectors/select";
 import { countCreator as count } from "./selectors/count";
+import { linkCreator as link } from "./selectors/link";
 
 export const Q = {
 	attr,
@@ -23,6 +25,7 @@ export const Q = {
 	list,
 	text,
 	select,
-	count
+	count,
+	link
 };
 
