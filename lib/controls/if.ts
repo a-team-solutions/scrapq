@@ -21,17 +21,13 @@ export const ifResolve = <T extends Query | Selector, F extends Query | Selector
 ) => {
     const el = $(queryType.selector, context);
     if (queryType.condition(el)) {
-        if (!queryType.truthy.type) {
-            return scrapQuery($, el as any, queryType.truthy as Query, {});
-        } else {
-            return ScrapSelector($, queryType.truthy as Selector, el as any);
-        }
+        return !queryType.truthy.type
+            ? scrapQuery($, el as any, queryType.truthy as Query, {})
+            : ScrapSelector($, queryType.truthy as Selector, el as any);
     } else {
-        if (!queryType.falsey.type) {
-            return scrapQuery($, el as any, queryType.falsey as Query, {})
-        } else {
-            return ScrapSelector($, queryType.falsey as Selector, el as any);
-        }
+        return !queryType.falsey.type
+            ? scrapQuery($, el as any, queryType.falsey as Query, {})
+            : ScrapSelector($, queryType.falsey as Selector, el as any);
     }
 };
 

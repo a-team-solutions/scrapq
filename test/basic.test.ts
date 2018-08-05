@@ -92,18 +92,17 @@ describe('Basic', () => {
         const result = scrap(STR_TO_SCRAP, {
             texts: Q.list('li', Q.text('span'))
         })
-        expect(result.texts).toEqual([
+        expect(result).toEqual([
             'Guten Tag',
             'Ciao',
             'Bonjour'
-        ])
+        ]);
     });
 
     it('should test if', () => {
         const result = scrap(STR_TO_SCRAP, {
             title: Q.If('.title', (el) => !!el, Q.text(''), Q.text('.msg'))
         })
-        console.log(result);
     })
 
 });

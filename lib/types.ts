@@ -7,7 +7,7 @@ import { Text } from './selectors/text';
 import { If } from './controls/if';
 
 export type Query = {
-    [property: string]: Selector
+    [property: string]: Selector;
 };
 
 export type Selector = Attr
@@ -16,7 +16,7 @@ export type Selector = Attr
 	| List<any>
 	| Select<any>
 	| Text
-	| If<any, any, any, any>;
+	| If<any, any>;
 
 export type TypeOfSelector<Q extends Selector> = Q["convert"] extends (data: any) => infer R
 	? R
