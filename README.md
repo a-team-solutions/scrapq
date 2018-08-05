@@ -31,6 +31,7 @@ const data = scrap(html, {
         link: Q.attr('.title > a', 'href')
     });
 });
+
 console.log(data);
 // {
 //   articles: [
@@ -103,3 +104,7 @@ get `true/false` if element exists
 `Q.list(selector: string, query: Query | QueryType)`
 
 get list of items
+
+`Q.count(selector: string)`
+
+get elements count

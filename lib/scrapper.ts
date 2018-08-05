@@ -6,6 +6,7 @@ import { htmlResolve } from './selectors/html';
 import { listResolve } from './selectors/list';
 import { textResolve } from './selectors/text';
 import { selectResolve } from "./selectors/select";
+import { countResolve } from "./selectors/count";
 
 export type ScrapSelector = ($: CheerioStatic, queryType: Selector, context: string) => any;
 
@@ -17,6 +18,7 @@ const scrapSelector: ScrapSelector =  ($: CheerioStatic, queryType: Selector, co
 		case "EXISTS": return existsResolve($, context, queryType)
 		case "LIST": return listResolve($, context, queryType, scrapQuery, scrapSelector)
 		case "SELECT": return selectResolve($, context, queryType)
+		case "COUNT": return countResolve($, context, queryType)
 		default: {
 			throw new Error(`Unexpected property type '${queryType}'`);
 		}

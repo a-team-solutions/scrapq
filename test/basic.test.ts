@@ -110,5 +110,19 @@ describe('Basic', () => {
         expect(result.data.msg).toBe('Ciao');
     });
 
+    it('should count <span/> elements', () => {
+        const result = scrap(STR_TO_SCRAP, {
+            spanCount: Q.count('span')
+        });
+        expect(result.spanCount).toBe(3);
+    });
+
+    it('should count not exists element', () => {
+        const result = scrap(STR_TO_SCRAP, {
+            spanCount: Q.count('table')
+        });
+        expect(result.spanCount).toBe(0);
+    });
+
 });
 
