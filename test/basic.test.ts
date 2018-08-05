@@ -99,5 +99,16 @@ describe('Basic', () => {
         ])
     });
 
+    it('should user deep query', () => {
+        const result = scrap(STR_TO_SCRAP, {
+            title: Q.text('.title'),
+            data: {
+                msg: Q.text('.msg')
+            }
+        });
+        expect(result.title).toBe('Hello');
+        expect(result.data.msg).toBe('Ciao');
+    });
+
 });
 

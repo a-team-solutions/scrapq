@@ -1,5 +1,5 @@
 import { load } from "cheerio";
-import { Query, Selector, TypeOfQuery, TypeOfSelector } from "./types";
+import { Query, Selector, TypeOfQuery, TypeOfSelector, isSelector } from "./types";
 import { attrResolve } from './selectors/attr';
 import { existsResolve } from './selectors/exists';
 import { htmlResolve } from './selectors/html';
@@ -37,7 +37,11 @@ const scrapQuery: ScrapQuery =  <Q extends Query>(
 	ref: any // object
 ): TypeOfQuery<Q> => {
 	Object.entries(queryData).forEach(([prop, val]) => {
-		ref[prop] = scrapSelector($, val, context);
+		if (isSelector(val)) {
+			ref[prop] = scrapSelector($, val, context);
+		} else {
+			ref[prop] = scrapQuery($, context, val, {});
+		}
 	});
 	return ref as TypeOfQuery<Q>;
 };

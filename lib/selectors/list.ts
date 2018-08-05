@@ -1,4 +1,4 @@
-import { Query, Selector, TypeOfQuery, TypeOfSelector } from "../types";
+import { Query, Selector, TypeOfQuery, TypeOfSelector, isSelector } from "../types";
 import { ScrapQuery, ScrapSelector } from "../scrapper";
 
 export type List<T extends object> = {
@@ -21,10 +21,10 @@ export const listResolve = <Q extends object>(
 	const els = $(queryType.selector, context);
 	for (let i = 0; i < els.length; i++) {
 		const el = els.eq(i);
-		const scrapedData = !queryType.data.type
-			? // TODO: Fix me, el should be string, not any!
-			  scrapQuery($, el as any, queryType.data as Query, {})
-			: ScrapSelector($, queryType.data as Selector, el as any);
+		const scrapedData = isSelector(queryType.data)
+			 // TODO: Fix me, el should be string, not any!
+			? ScrapSelector($, queryType.data as Selector, el as any)
+			: scrapQuery($, el as any, queryType.data as Query, {});
 		result.push(scrapedData);
 	}
 	return result;

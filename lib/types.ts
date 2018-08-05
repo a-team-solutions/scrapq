@@ -33,3 +33,7 @@ export type TypeOf<Q extends Query | Selector> = Q extends Query
 	: Q extends Selector
 		? TypeOfSelector<Selector>
 		: never;
+
+export function isSelector(q: Query | Selector): q is Selector {
+	return !!q.type;
+}
