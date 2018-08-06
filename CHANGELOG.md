@@ -4,9 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [1.2.0] - 2018-MM-DD
+
+- It is possible to scrap using `selector` instead `queries`
+- Fixed context has proper type
+
 ## [1.1.0] - 2018-08-05
 
-- Added support for nested queries
+- Added support for nested
 - Added `count` selector that returns number of elements
 - Added `link` selector that returns `href` from an element
 - Added `predicate` callback to `list` to filter elements

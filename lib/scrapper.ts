@@ -1,5 +1,5 @@
 import { load } from "cheerio";
-import { Query, Selector, TypeOfQuery, TypeOfSelector, isSelector } from "./types";
+import { Query, Selector, TypeOfQuery, isSelector, TypeOfSelector } from "./types";
 import { attrResolve } from './selectors/attr';
 import { existsResolve } from './selectors/exists';
 import { htmlResolve } from './selectors/html';
@@ -8,6 +8,9 @@ import { textResolve } from './selectors/text';
 import { selectResolve } from "./selectors/select";
 import { countResolve } from "./selectors/count";
 import { linkResolve } from "./selectors/link";
+
+const err = 'Unexpected property type';
+const hlp = 'Propably you missplaced one type of query';
 
 export type ScrapSelector = ($: CheerioStatic, context: Cheerio, queryType: Selector) => any;
 
@@ -22,7 +25,7 @@ const scrapSelector: ScrapSelector =  ($: CheerioStatic, context: Cheerio, query
 		case "COUNT": return countResolve($, context, queryType);
 		case "LINK": return linkResolve($, context, queryType);
 		default: {
-			throw new Error(`Unexpected property type '${queryType}'`);
+			throw new Error(`${err} "${queryType}", \n ${hlp}`);
 		}
 	}
 }
@@ -48,19 +51,24 @@ const scrapQuery: ScrapQuery =  <Q extends Query>(
 		}
 	});
 	return ref as TypeOfQuery<Q>;
-};
+}
 
 /**
  * Scrap based on query
  * @param html - html to scrap
  * @param query - query to use
  */
-export function scrap <Q extends Query>(
+export function scrap <Q extends Query | Selector>(
 	html: string,
 	query: Q
-): TypeOfQuery<Q> {
+): Q extends Query ? TypeOfQuery<Q> : Q extends Selector ? TypeOfSelector<Q> : never {
 	const $ = load(html);
 	const root = $.root();
-	const result = scrapQuery($, root, query, {});
-	return result as TypeOfQuery<Q>;
+	const result = isSelector(query)
+		? scrapSelector($, root, query)
+		: scrapQuery($, root, query as Query, {});
+	if (isSelector(query)) {
+
+	}
+	return result;
 };

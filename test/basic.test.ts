@@ -148,4 +148,15 @@ describe('Basic', () => {
         expect(result.items[0].msg).toBe('Ciao');
     });
 
+    it('should use only selector to scrap title', () => {
+        const title = scrap(STR_TO_SCRAP, Q.text('.title'));
+        expect(title).toBe('Hello');
+    });
+
+    it('should use only selector to scrap <span/>', () => {
+        const spans = scrap(STR_TO_SCRAP, Q.list('span', Q.text('')));
+        expect(spans.length).toBe(3);
+        expect(spans[0]).toBe('Guten Tag');
+    });
+
 });
