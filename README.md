@@ -31,6 +31,7 @@ const data = scrap(html, {
         link: Q.attr('.title > a', 'href')
     });
 });
+
 console.log(data);
 // {
 //   articles: [
@@ -57,13 +58,15 @@ const STR_TO_SCRAP = `
         <li><span>Ciao</span></li>
         <li><span>Bonjour</span></li>
     </ul>
+    <a class="link" href="/read-more">read more ...</a>
 `;
 
 const result = scrap(STR_TO_SCRAP, {
     title: Q.text('h1.title'),
-    items: Q.list('li', {
+    items: Q.list('ul>li', {
         text: Q.text('span')
-    })
+    }),
+    link: Q.link('a.link')
 });
 
 console.log(result);
@@ -78,32 +81,48 @@ console.log(result);
 
 ```
 
+or just
+
+```typescript
+import { text, list, link } from 'scrapq';
+
+const result = scrap(STR_TO_SCRAP, {
+    title: text('h1.title'),
+    items: list('ul>li', {
+        text: text('span')
+    }),
+    link: link('a.link')
+});
+```
+
 ## API
 
 `scrap(html: string, query: Query)`
 
 ### Query
 
-`Q.text(selector: string)`
+`Q.text(selector: string): string`
 
 get text from an element
 
-`Q.attr(selector: string, htmlAttribute: string)`
+`Q.attr(selector: string, htmlAttribute: string): string`
 
 get attribute from an element
 
-`Q.html(selector: string)`
+`Q.html(selector: string): string`
 
 get html
 
-`Q.exists(selector: string)`
+`Q.exists(selector: string): boolean`
 
 get `true/false` if element exists
 
-`Q.list(selector: string, query: Query | QueryType)`
+`Q.list(selector: string, query: Query | QueryType, predicate?): Array<query>`
 
 get list of items
 
 `Q.if(selector: string, condition: (el) => boolean, truthy: Query, falsey: Query)`
 
-get query based on condition
+get elements count
+
+`Q.count(selector: string): number`

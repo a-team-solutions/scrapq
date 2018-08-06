@@ -1,31 +1,31 @@
-export type Text = {
+export type Link = {
 	// --- Internal ---
-	type: "TEXT";
+	type: "LINK";
 	convert: string;
 	// ---Additional---
 	selector: string;
 };
 
-export const textResolve = (
+export const linkResolve = (
 	$: CheerioStatic,
 	context: Cheerio,
-	queryType: Text
+	queryType: Link
 ) => {
 	if (queryType.selector === "") {
-		// Get text from root element
-		return $(context).text();
+		// Get link from root element
+		return $(context).attr('href');
 	} else {
 		const el = $(queryType.selector, context);
-		return el.text();
+		return el.attr('href');
 	}
 };
 
 /**
- * Get inner text
+ * Get link from `href` attribute
  * @param selector - css selector
  */
-export const  textCreator = (selector: string): Text => ({
-	type: "TEXT",
+export const  linkCreator = (selector: string): Link => ({
+	type: "LINK",
 	selector,
 	convert: ''
 });

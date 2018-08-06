@@ -1,4 +1,4 @@
-import { Query, Selector, TypeOfQuery, TypeOfSelector } from "../types";
+import { Query, Selector, TypeOfQuery, TypeOfSelector, isSelector } from "../types";
 import { ScrapQuery, ScrapSelector } from "../scrapper";
 
 export type List<T extends object> = {
@@ -6,26 +6,37 @@ export type List<T extends object> = {
 	type: "LIST";
 	convert: Array<T>;
 	// ---Additional---
+	predicate?: (el: Cheerio, index: number) => boolean;
 	selector: string;
 	data: Query | Selector;
 };
 
 export const listResolve = <Q extends object>(
 	$: CheerioStatic,
-	context: string,
+	context: Cheerio,
 	queryType: List<Q>,
 	scrapQuery: ScrapQuery,
-	ScrapSelector: ScrapSelector
+	scrapSelector: ScrapSelector
 ) => {
 	const result: any[] = [];
 	const els = $(queryType.selector, context);
 	for (let i = 0; i < els.length; i++) {
 		const el = els.eq(i);
-		const scrapedData = !queryType.data.type
-			? // TODO: Fix me, el should be string, not any!
-			  scrapQuery($, el as any, queryType.data as Query, {})
-			: ScrapSelector($, queryType.data as Selector, el as any);
-		result.push(scrapedData);
+		if (queryType.predicate) {
+			// If list has predicate, test every element
+			if (queryType.predicate(el, i)) {
+				const scrapedData = isSelector(queryType.data)
+					? scrapSelector($, el, queryType.data)
+					: scrapQuery($, el, queryType.data, {});
+				result.push(scrapedData);
+			}
+		} else {
+			const scrapedData = isSelector(queryType.data)
+				? scrapSelector($, el, queryType.data)
+				: scrapQuery($, el, queryType.data, {});
+			result.push(scrapedData);
+		}
+
 	}
 	return result;
 };
@@ -34,13 +45,15 @@ export const listResolve = <Q extends object>(
  * Get list of items
  * @param selector - css selector for list of items
  * @param data - query per item
+ * @param predicate - filter elements
  */
 export const listCreator = <Q extends Query | Selector>(
 	selector: string,
-	data: Q
+	data: Q,
+	predicate?: (el: Cheerio, index: number) => boolean
 ): List<Q extends Query
 	? TypeOfQuery<Q>
 	: Q extends Selector
 		? TypeOfSelector<Q>
 		: never
-> => ({ type: "LIST", convert: [], selector, data });
+> => ({ type: "LIST", convert: [], selector, data, predicate });

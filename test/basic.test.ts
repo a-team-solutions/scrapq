@@ -7,6 +7,7 @@ const STR_TO_SCRAP = `
         <li><span class="msg">Ciao</span></li>
         <li><span>Bonjour</span></li>
     </ul>
+    <a href="/read-more">read more ...</a>
 `;
 
 describe('Basic', () => {
@@ -91,19 +92,81 @@ describe('Basic', () => {
     it('should get list of texts', () => {
         const result = scrap(STR_TO_SCRAP, {
             texts: Q.list('li', Q.text('span'))
-        })
-        expect(result).toEqual([
+        });
+        expect(result.texts).toEqual([
             'Guten Tag',
             'Ciao',
             'Bonjour'
         ]);
     });
 
-    it('should test if', () => {
+    it('should user deep query', () => {
         const result = scrap(STR_TO_SCRAP, {
-            title: Q.If('.title', (el) => !!el, Q.text(''), Q.text('.msg'))
-        })
-    })
+            title: Q.text('.title'),
+            data: {
+                msg: Q.text('.msg')
+            }
+        });
+        expect(result.title).toBe('Hello');
+        expect(result.data.msg).toBe('Ciao');
+    });
+
+    it('should count <span/> elements', () => {
+        const result = scrap(STR_TO_SCRAP, {
+            spanCount: Q.count('span')
+        });
+        expect(result.spanCount).toBe(3);
+    });
+
+    it('should count not exists element', () => {
+        const result = scrap(STR_TO_SCRAP, {
+            spanCount: Q.count('table')
+        });
+        expect(result.spanCount).toBe(0);
+    });
+
+    it('should get link from an <a/> element', () => {
+        const result = scrap(STR_TO_SCRAP, {
+            link: Q.link('a')
+        });
+        expect(result.link).toBe('/read-more');
+    });
+
+    it('should not get link from non-existing element', () => {
+        const result = scrap(STR_TO_SCRAP, {
+            link: Q.link('tr')
+        });
+        expect(result.link).toBeUndefined();
+    });
+
+    it('should use predicate filter on list selector', () => {
+        const result = scrap(STR_TO_SCRAP, {
+            items: Q.list('span', {
+                msg: Q.text('')
+            }, (el) => el.hasClass('msg'))
+        });
+        expect(result.items[0].msg).toBe('Ciao');
+    });
+
+    it('should use only selector to scrap title', () => {
+        const title = scrap(STR_TO_SCRAP, Q.text('.title'));
+        expect(title).toBe('Hello');
+    });
+
+    it('should use only selector to scrap <span/>', () => {
+        const spans = scrap(STR_TO_SCRAP, Q.list('span', Q.text('')));
+        expect(spans.length).toBe(3);
+        expect(spans[0]).toBe('Guten Tag');
+    });
+
+    it('should use truthy condition', () => {
+        const result = scrap(STR_TO_SCRAP, Q.If('.title', (el) => !!el, Q.text('.title'), Q.text('.msg')));
+        expect(result).toBe('Hello');
+    });
+
+    it('should use falsey condition', () => {
+        const result = scrap(STR_TO_SCRAP, Q.If('.notexisting', (el) => !el, Q.text('.title'), { msg: Q.text('.msg') }));
+        expect(result).toBe({ msg: 'Ciao' });
+    });
 
 });
-

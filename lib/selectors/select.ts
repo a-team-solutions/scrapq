@@ -8,8 +8,8 @@ export type Select<C extends (el: Cheerio) => any> = {
 
 export const selectResolve = <C extends (el: Cheerio) => any>(
 	$: CheerioStatic,
-	context: string,
-	queryType: Select<any>
+	context: Cheerio,
+	queryType: Select<C>
 ) => {
 	if (queryType.selector === "") {
 		return queryType.convert($(context));
@@ -19,8 +19,13 @@ export const selectResolve = <C extends (el: Cheerio) => any>(
 	}
 };
 
-export const selectCreator = <C extends (el: Cheerio) => any>(selector: string, convert: C): Select<C> => ({
+/**
+ * Create custom selector
+ * @param selector - css selector
+ * @param callback - callback with cheerio element
+ */
+export const selectCreator = <C extends (el: Cheerio) => any>(selector: string, callback: C): Select<C> => ({
 	type: "SELECT",
-	convert: convert,
+	convert: callback,
 	selector: selector
 });

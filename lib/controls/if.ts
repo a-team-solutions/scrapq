@@ -1,10 +1,10 @@
-import { Query, Selector, TypeOfQuery, TypeOfSelector, TypeOf } from "../types";
+import { Query, Selector, TypeOf, isSelector } from "../types";
 import { ScrapQuery, ScrapSelector } from "../scrapper";
 
-export type If<T extends Query | Selector, F extends Query | Selector> = {
+export type If<T extends Query | Selector, F extends Query | Selector, TR, FR> = {
 	// --- Internal ---
 	type: "IF";
-	convert: TypeOf<T> | TypeOf<F>;
+    convert: TR | FR;
 	selector: string;
     // ---Additional---
     truthy: T,
@@ -14,20 +14,20 @@ export type If<T extends Query | Selector, F extends Query | Selector> = {
 
 export const ifResolve = <T extends Query | Selector, F extends Query | Selector>(
 	$: CheerioStatic,
-	context: string,
-	queryType: If<T, F>,
+	context: Cheerio,
+	queryType: If<T, F, TypeOf<T>, TypeOf<F>>,
 	scrapQuery: ScrapQuery,
 	ScrapSelector: ScrapSelector
 ) => {
     const el = $(queryType.selector, context);
     if (queryType.condition(el)) {
-        return !queryType.truthy.type
-            ? scrapQuery($, el as any, queryType.truthy as Query, {})
-            : ScrapSelector($, queryType.truthy as Selector, el as any);
+        return isSelector(queryType.truthy)
+            ? ScrapSelector($, $.root(), queryType.truthy)
+            : scrapQuery($, $.root(), queryType.truthy as Query, {})
     } else {
-        return !queryType.falsey.type
-            ? scrapQuery($, el as any, queryType.falsey as Query, {})
-            : ScrapSelector($, queryType.falsey as Selector, el as any);
+        return isSelector(queryType.falsey)
+            ? ScrapSelector($, $.root(), queryType.falsey)
+            : scrapQuery($, $.root(), queryType.falsey as Query, {})
     }
 };
 
@@ -41,7 +41,7 @@ export const ifCreator = <T extends Query | Selector, F extends Query | Selector
     condition: (el: Cheerio) => boolean,
     truthy: T,
     falsey: F
-): If<T, F> => ({
+): If<T, F, TypeOf<T>, TypeOf<F>> => ({
     type: "IF",
     selector,
     condition,

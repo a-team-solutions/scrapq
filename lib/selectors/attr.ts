@@ -9,7 +9,7 @@ export type Attr = {
 
 export const attrResolve = (
 	$: CheerioStatic,
-	context: string,
+	context: Cheerio,
 	queryType: Attr
 ) => {
 	if (queryType.selector === "") {

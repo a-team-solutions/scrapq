@@ -8,7 +8,7 @@ export type Exists = {
 
 export const existsResolve = (
 	$: CheerioStatic,
-	context: string,
+	context: Cheerio,
 	queryType: Exists
 ) => {
 	// TODO: selector cannot be ""

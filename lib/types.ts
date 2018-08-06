@@ -5,6 +5,8 @@ import { List } from './selectors/list';
 import { Select } from './selectors/select';
 import { Text } from './selectors/text';
 import { If } from './controls/if';
+import { Count } from './selectors/count';
+import { Link } from './selectors/link';
 
 export type Query = {
     [property: string]: Selector | Query;
@@ -15,8 +17,10 @@ export type Selector = Attr
 	| Html
 	| List<any>
 	| Select<any>
+	| If<any, any, any, any>
 	| Text
-	| If<any, any>;
+	| Count
+	| Link;
 
 export type TypeOfSelector<Q extends Selector> = Q["convert"] extends (data: any) => infer R
 	? R
@@ -35,3 +39,11 @@ export type TypeOf<Q extends Query | Selector> = Q extends Query
 	: Q extends Selector
 		? TypeOfSelector<Q>
 		: never;
+
+/**
+ * Test if query is Selector
+ * @param q
+ */
+export function isSelector(q: Query | Selector): q is Selector {
+	return !!q.type;
+}
