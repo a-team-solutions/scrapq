@@ -166,7 +166,7 @@ describe('Basic', () => {
 
     it('should use falsey condition', () => {
         const result = scrap(STR_TO_SCRAP, Q.If('.notexisting', (el) => !el, Q.text('.title'), { msg: Q.text('.msg') }));
-        expect(result).toBe({ msg: 'Ciao' });
+        expect(result).toEqual({ msg: 'Ciao' });
     });
 
 });
