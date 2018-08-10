@@ -1,9 +1,15 @@
-import { Query, Selector, TypeOfQuery, TypeOfSelector, isSelector } from "../types";
+import {
+	Query,
+	Selector,
+	TypeOfQuery,
+	TypeOfSelector,
+	isSelector
+} from "../types";
 import { ScrapQuery, ScrapSelector } from "../scrapper";
 
 export type List<T extends object> = {
 	// --- Internal ---
-	type: "LIST";
+	_type: "LIST";
 	convert: Array<T>;
 	// ---Additional---
 	predicate?: (el: Cheerio, index: number) => boolean;
@@ -36,7 +42,6 @@ export const listResolve = <Q extends object>(
 				: scrapQuery($, el, queryType.data, {});
 			result.push(scrapedData);
 		}
-
 	}
 	return result;
 };
@@ -51,9 +56,8 @@ export const listCreator = <Q extends Query | Selector>(
 	selector: string,
 	data: Q,
 	predicate?: (el: Cheerio, index: number) => boolean
-): List<Q extends Query
-	? TypeOfQuery<Q>
-	: Q extends Selector
-		? TypeOfSelector<Q>
-		: never
-> => ({ type: "LIST", convert: [], selector, data, predicate });
+): List<
+	Q extends Query
+		? TypeOfQuery<Q>
+		: Q extends Selector ? TypeOfSelector<Q> : never
+> => ({ _type: "LIST", convert: [], selector, data, predicate });

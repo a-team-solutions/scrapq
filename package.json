@@ -6,7 +6,7 @@
   "typings": "./dist/Index.d.ts",
   "scripts": {
     "test": "npm run test:basic && npm run test:exhaustive",
-    "test:basic": "jasmine-ts ./test/*.test.ts",
+    "test:basic": "jasmine-ts ./test/**/*.test.ts",
     "test:exhaustive": "jasmine-ts ./test/**/*.ts",
     "build": "tsc",
     "prettify": "prettier --write ./lib/**/*.ts"

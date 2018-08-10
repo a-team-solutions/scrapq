@@ -1,7 +1,7 @@
 import { Attr } from './selectors/attr';
 import { Exists } from './selectors/exists';
 import { Html } from './selectors/html';
-import { List } from './selectors/list';
+import { List } from './controls/list';
 import { Select } from './selectors/select';
 import { Text } from './selectors/text';
 import { Count } from './selectors/count';
@@ -43,5 +43,5 @@ export type TypeOf<Q extends Query | Selector> = Q extends Query
  * @param q
  */
 export function isSelector(q: Query | Selector): q is Selector {
-	return !!q.type;
+	return !!q._type;
 }
