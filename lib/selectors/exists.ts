@@ -1,6 +1,6 @@
 export type Exists = {
 	// --- Internal ---
-	type: "EXISTS";
+	_type: "EXISTS";
 	convert: boolean;
 	// ---Additional---
 	selector: string;
@@ -21,7 +21,7 @@ export const existsResolve = (
  * @param selector - css selector
  */
 export const existsCreator = (selector: string): Exists => ({
-	type: "EXISTS",
+	_type: "EXISTS",
 	selector,
 	convert: true
 });

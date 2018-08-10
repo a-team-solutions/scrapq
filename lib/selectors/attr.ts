@@ -1,6 +1,6 @@
 export type Attr = {
 	// --- Internal
-	type: "ATTR";
+	_type: "ATTR";
 	convert: string;
 	// ---Additional
 	attribute: string;
@@ -27,8 +27,8 @@ export const attrResolve = (
  * @param attribute - html attribute to scrap
  */
 export const attrCreator = (selector: string, attribute: string): Attr => ({
-	type: "ATTR",
+	_type: "ATTR",
 	selector,
-	convert: '',
+	convert: "",
 	attribute
 });

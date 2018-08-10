@@ -1,6 +1,6 @@
 export type Select<C extends (el: Cheerio) => any> = {
 	// --- Internal ---
-	type: "SELECT";
+	_type: "SELECT";
 	convert: C;
 	// ---Additional---
 	selector: string;
@@ -24,8 +24,11 @@ export const selectResolve = <C extends (el: Cheerio) => any>(
  * @param selector - css selector
  * @param callback - callback with cheerio element
  */
-export const selectCreator = <C extends (el: Cheerio) => any>(selector: string, callback: C): Select<C> => ({
-	type: "SELECT",
+export const selectCreator = <C extends (el: Cheerio) => any>(
+	selector: string,
+	callback: C
+): Select<C> => ({
+	_type: "SELECT",
 	convert: callback,
 	selector: selector
 });

@@ -1,6 +1,6 @@
 export type Html = {
 	// --- Internal ---
-	type: "HTML";
+	_type: "HTML";
 	convert: string;
 	// ---Additional---
 	selector: string;
@@ -25,7 +25,7 @@ export const htmlResolve = (
  * @param selector - css selector
  */
 export const htmlCreator = (selector: string): Html => ({
-	type: "HTML",
+	_type: "HTML",
 	selector,
 	convert: "string"
 });

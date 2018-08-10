@@ -1,6 +1,6 @@
 export type Text = {
 	// --- Internal ---
-	type: "TEXT";
+	_type: "TEXT";
 	convert: string;
 	// ---Additional---
 	selector: string;
@@ -24,8 +24,8 @@ export const textResolve = (
  * Get inner text
  * @param selector - css selector
  */
-export const  textCreator = (selector: string): Text => ({
-	type: "TEXT",
+export const textCreator = (selector: string): Text => ({
+	_type: "TEXT",
 	selector,
-	convert: ''
+	convert: ""
 });

@@ -3,7 +3,7 @@ import { Query, Selector, TypeOfQuery, isSelector, TypeOfSelector } from "./type
 import { attrResolve } from './selectors/attr';
 import { existsResolve } from './selectors/exists';
 import { htmlResolve } from './selectors/html';
-import { listResolve } from './selectors/list';
+import { listResolve } from './controls/list';
 import { textResolve } from './selectors/text';
 import { selectResolve } from "./selectors/select";
 import { countResolve } from "./selectors/count";
@@ -16,7 +16,7 @@ const hlp = 'Propably you missplaced one type of query';
 export type ScrapSelector = ($: CheerioStatic, context: Cheerio, queryType: Selector) => any;
 
 const scrapSelector: ScrapSelector =  ($: CheerioStatic, context: Cheerio, queryType: Selector) => {
-	switch (queryType.type) {
+	switch (queryType._type) {
 		case "TEXT": return textResolve($, context, queryType);
 		case "ATTR": return attrResolve($, context, queryType);
 		case 'HTML': return htmlResolve($, context, queryType);
@@ -69,8 +69,5 @@ export function scrap <Q extends Query | Selector>(
 	const result = isSelector(query)
 		? scrapSelector($, root, query)
 		: scrapQuery($, root, query as Query, {});
-	if (isSelector(query)) {
-
-	}
 	return result;
 };

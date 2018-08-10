@@ -1,6 +1,6 @@
 export type Link = {
 	// --- Internal ---
-	type: "LINK";
+	_type: "LINK";
 	convert: string;
 	// ---Additional---
 	selector: string;
@@ -13,10 +13,10 @@ export const linkResolve = (
 ) => {
 	if (queryType.selector === "") {
 		// Get link from root element
-		return $(context).attr('href');
+		return $(context).attr("href");
 	} else {
 		const el = $(queryType.selector, context);
-		return el.attr('href');
+		return el.attr("href");
 	}
 };
 
@@ -24,8 +24,8 @@ export const linkResolve = (
  * Get link from `href` attribute
  * @param selector - css selector
  */
-export const  linkCreator = (selector: string): Link => ({
-	type: "LINK",
+export const linkCreator = (selector: string): Link => ({
+	_type: "LINK",
 	selector,
-	convert: ''
+	convert: ""
 });
