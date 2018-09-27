@@ -28,7 +28,7 @@
     "jasmine": "^3.1.0",
     "jasmine-ts": "^0.2.1",
     "prettier": "^1.13.7",
-    "typescript": "^3.1.0-dev.20180721"
+    "typescript": "^3.0.3"
   },
   "dependencies": {
     "@types/cheerio": "^0.22.8",
