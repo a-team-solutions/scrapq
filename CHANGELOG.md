@@ -7,12 +7,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ## [1.2.0] - 2018-MM-DD
 
 - Added `If` control
-- It is possible to scrap using `selector` instead of `queries`
+- Added callback function to be able convert selector
+- Added `TODO.md`
 - Selectors are using `_type` instead of `type`
 - Selectors split to `/selectors` and `/controls`
-- Fixed context has proper type
-- Added `TODO.md`
 - Better `/test` structure
+- It is possible to scrap using `selector` instead of `queries`
+- Fixed context has proper type
 
 ## [1.1.0] - 2018-08-05
 
