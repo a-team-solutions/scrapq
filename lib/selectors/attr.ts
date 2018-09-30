@@ -1,23 +1,25 @@
-export type Attr = {
+export type Attr<F extends (attribute: string) => any> = {
 	// --- Internal
 	_type: "ATTR";
-	convert: string;
+	callback: F;
 	// ---Additional
 	attribute: string;
 	selector: string;
 };
 
-export const attrResolve = (
+export function attrResolve(
 	$: CheerioStatic,
 	context: Cheerio,
-	queryType: Attr
-) => {
+	queryType: Attr<any>
+) {
 	if (queryType.selector === "") {
 		// Get attribute from root element
-		return $(context).attr(queryType.attribute);
+		const attribute = $(context).attr(queryType.attribute);
+		return queryType.callback(attribute);
 	} else {
 		const el = $(queryType.selector, context);
-		return el.attr(queryType.attribute);
+		const attribute = el.attr(queryType.attribute);
+		return queryType.callback(attribute);
 	}
 };
 
@@ -26,9 +28,14 @@ export const attrResolve = (
  * @param selector - css selector
  * @param attribute - html attribute to scrap
  */
-export const attrCreator = (selector: string, attribute: string): Attr => ({
-	_type: "ATTR",
-	selector,
-	convert: "",
-	attribute
-});
+export function attrCreator(selector: string, attribute: string, callback?: undefined): Attr<() => string>;
+export function attrCreator<F extends (attribute: string) => any>(selector: string, attribute: string, callback: F): Attr<F>;
+export function attrCreator<F extends (attribute: string) => any>(selector: string, attribute: string, callback?: undefined | F) {
+	return {
+		_type: "ATTR",
+		selector,
+		callback: callback ? callback : (attr: string) => attr,
+		attribute
+	} as Attr<any>;
+}
+

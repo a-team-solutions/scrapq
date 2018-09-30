@@ -1,7 +1,7 @@
-export type Text = {
+export type Text<F extends (text: string) => any> = {
 	// --- Internal ---
 	_type: "TEXT";
-	convert: string;
+	callback: F;
 	// ---Additional---
 	selector: string;
 };
@@ -9,14 +9,16 @@ export type Text = {
 export const textResolve = (
 	$: CheerioStatic,
 	context: Cheerio,
-	queryType: Text
+	queryType: Text<any>
 ) => {
 	if (queryType.selector === "") {
 		// Get text from root element
-		return $(context).text();
+		const text = $(context).text();
+		return queryType.callback(text);
 	} else {
 		const el = $(queryType.selector, context);
-		return el.text();
+		const text = el.text();
+		return queryType.callback(text);
 	}
 };
 
@@ -24,8 +26,12 @@ export const textResolve = (
  * Get inner text
  * @param selector - css selector
  */
-export const textCreator = (selector: string): Text => ({
-	_type: "TEXT",
-	selector,
-	convert: ""
-});
+export function textCreator(selector: string, callback?: undefined): Text<() => string>;
+export function textCreator<F extends (text: string) => any>(selector: string, callback: F): Text<F>;
+export function textCreator<F extends (text: string) => any>(selector: string, callback?: undefined | F) {
+	return {
+		_type: "TEXT",
+		selector,
+		callback: callback ? callback : (text: string) => text
+	} as Text<any>;
+}

@@ -12,19 +12,19 @@ export type Query = {
     [property: string]: Selector | Query;
 };
 
-export type Selector = Attr
-	| Exists
-	| Html
+export type Selector = Attr<any>
+	| Exists<any>
+	| Html<any>
 	| List<any>
 	| Select<any>
 	| If<any, any, any, any>
-	| Text
-	| Count
-	| Link;
+	| Text<any>
+	| Count<any>
+	| Link<any>
 
-export type TypeOfSelector<Q extends Selector> = Q["convert"] extends (data: any) => infer R
-	? R
-	: Q["convert"]
+export type TypeOfSelector<Q extends Selector> = Q["callback"] extends (data: any) => any
+	? ReturnType<Q["callback"]>
+	: Q["callback"]
 
 export type TypeOfQuery<Q extends Query> = {
 	[P in keyof Q]: Q[P] extends Selector

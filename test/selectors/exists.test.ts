@@ -8,6 +8,11 @@ describe("exists", () => {
         expect(result).toBe(true);
     });
 
+    it("should exists title and convert it to string", () => {
+        const result = scrap(html, Q.exists('h1', (exists) => "" + exists));
+        expect(result).toBe("true");
+    });
+
     it("should not exists h3", () => {
         const result = scrap(html, Q.exists('h3'));
         expect(result).toBe(false);

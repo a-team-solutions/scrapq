@@ -4,7 +4,7 @@ import { ScrapQuery, ScrapSelector } from "../scrapper";
 export type If<T extends Query | Selector, F extends Query | Selector, TR, FR> = {
 	// --- Internal ---
 	_type: "IF";
-    convert: TR | FR;
+    callback: TR | FR;
 	selector: string;
     // ---Additional---
     truthy: T,
@@ -47,5 +47,5 @@ export const ifCreator = <T extends Query | Selector, F extends Query | Selector
     condition,
     truthy,
     falsey,
-    convert: {} as any
+    callback: {} as any
 });

@@ -1,7 +1,7 @@
-export type Exists = {
+export type Exists<F extends (exists: boolean) => any> = {
 	// --- Internal ---
 	_type: "EXISTS";
-	convert: boolean;
+	callback: F;
 	// ---Additional---
 	selector: string;
 };
@@ -9,19 +9,24 @@ export type Exists = {
 export const existsResolve = (
 	$: CheerioStatic,
 	context: Cheerio,
-	queryType: Exists
+	queryType: Exists<any>
 ) => {
 	// TODO: selector cannot be ""
 	const el = $(queryType.selector, context);
-	return el.length > 0 ? true : false;
+	const result = el.length > 0 ? true : false;
+	return queryType.callback(result);
 };
 
 /**
  * Check if element exists
  * @param selector - css selector
  */
-export const existsCreator = (selector: string): Exists => ({
-	_type: "EXISTS",
-	selector,
-	convert: true
-});
+export function existsCreator(selector: string, callback?: undefined): Exists<() => boolean>;
+export function existsCreator<F extends (exists: boolean) => any>(selector: string, callback: F): Exists<F>;
+export function existsCreator<F extends (exists: boolean) => any>(selector: string, callback?: undefined | F) {
+	return {
+		_type: "EXISTS",
+		selector,
+		callback: callback ? callback : (exists: boolean) => exists
+	} as Exists<any>;
+}

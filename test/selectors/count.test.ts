@@ -8,6 +8,11 @@ describe("count", () => {
         expect(result).toBe(3);
     });
 
+    it("should count <li/> elements and convert it to string", () => {
+        const result = scrap(html, Q.count('li', (count) => count.toString()));
+        expect(result).toBe("3");
+    });
+
     it("should count <h1/>", () => {
         const result = scrap(html, Q.count('h1'));
         expect(result).toBe(1);

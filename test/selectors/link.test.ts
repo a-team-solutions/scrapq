@@ -8,6 +8,11 @@ describe("link", () => {
         expect(result).toBe("/read-more");
     });
 
+    it("should get length of the link from <a/>", () => {
+        const result = scrap(html, Q.link('a', (link) => link.length));
+        expect(result).toBe(10);
+    });
+
     // it("should not get link from title", () => {
     //     const result = scrap(html, Q.link('h1'));
     //     expect(result).toBe("");

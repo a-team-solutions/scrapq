@@ -1,7 +1,7 @@
-export type Link = {
+export type Link<F extends (link: string) => any> = {
 	// --- Internal ---
 	_type: "LINK";
-	convert: string;
+	callback: F;
 	// ---Additional---
 	selector: string;
 };
@@ -9,14 +9,16 @@ export type Link = {
 export const linkResolve = (
 	$: CheerioStatic,
 	context: Cheerio,
-	queryType: Link
+	queryType: Link<any>
 ) => {
 	if (queryType.selector === "") {
 		// Get link from root element
-		return $(context).attr("href");
+		const link = $(context).attr("href");
+		return queryType.callback(link);
 	} else {
 		const el = $(queryType.selector, context);
-		return el.attr("href");
+		const link = el.attr("href");
+		return queryType.callback(link);
 	}
 };
 
@@ -24,8 +26,12 @@ export const linkResolve = (
  * Get link from `href` attribute
  * @param selector - css selector
  */
-export const linkCreator = (selector: string): Link => ({
-	_type: "LINK",
-	selector,
-	convert: ""
-});
+export function linkCreator(selector: string, callback?: undefined): Link<() => string>;
+export function linkCreator<F extends (link: string) => any>(selector: string, callback: F): Link<F>;
+export function linkCreator<F extends (link: string) => any>(selector: string, callback?: undefined | F) {
+	return {
+		_type: "LINK",
+		selector,
+		callback: callback ? callback : (link: string) => link
+	} as Link<any>;
+}

@@ -10,7 +10,7 @@ import { ScrapQuery, ScrapSelector } from "../scrapper";
 export type List<T extends object> = {
 	// --- Internal ---
 	_type: "LIST";
-	convert: Array<T>;
+	callback: Array<T>;
 	// ---Additional---
 	predicate?: (el: Cheerio, index: number) => boolean;
 	selector: string;
@@ -60,4 +60,4 @@ export const listCreator = <Q extends Query | Selector>(
 	Q extends Query
 		? TypeOfQuery<Q>
 		: Q extends Selector ? TypeOfSelector<Q> : never
-> => ({ _type: "LIST", convert: [], selector, data, predicate });
+> => ({ _type: "LIST", callback: [], selector, data, predicate });

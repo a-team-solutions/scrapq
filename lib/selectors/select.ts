@@ -1,7 +1,7 @@
-export type Select<C extends (el: Cheerio) => any> = {
+export type Select<F extends (el: Cheerio) => any> = {
 	// --- Internal ---
 	_type: "SELECT";
-	convert: C;
+	callback: F;
 	// ---Additional---
 	selector: string;
 };
@@ -12,10 +12,10 @@ export const selectResolve = <C extends (el: Cheerio) => any>(
 	queryType: Select<C>
 ) => {
 	if (queryType.selector === "") {
-		return queryType.convert($(context));
+		return queryType.callback($(context));
 	} else {
 		const el = $(queryType.selector, context);
-		return queryType.convert(el);
+		return queryType.callback(el);
 	}
 };
 
@@ -24,11 +24,10 @@ export const selectResolve = <C extends (el: Cheerio) => any>(
  * @param selector - css selector
  * @param callback - callback with cheerio element
  */
-export const selectCreator = <C extends (el: Cheerio) => any>(
-	selector: string,
-	callback: C
-): Select<C> => ({
-	_type: "SELECT",
-	convert: callback,
-	selector: selector
-});
+export function selectCreator<F extends (el: Cheerio) => any>(selector: string, callback: F): Select<F> {
+	return {
+		_type: "SELECT",
+		callback: callback ? callback : (el: Cheerio) => el,
+		selector
+	} as Select<F>;
+}
