@@ -12,11 +12,13 @@ There are plenty scrapping libs out there, but only few with full Typescript sup
 on your query. This is small library with only one purpose to provide scrapping in human readable format with full
 Typescript support like intellisense and type inference.
 
-## Examples
+### Examples
 
-To see all examples, please visit [./test/basic.test.ts](./test/basic.test.ts)
+To see **Basic** examples, please visit [./test/basic.test.ts](./test/basic.test.ts)
 
-Hacker news
+Or **Advanced** example, please visit [./test/exhaustive/agescx.test.ts](./test/exhaustive/agescx.test.ts)
+
+### Hacker news
 
 ```typescript
 import { scrap, Q } from 'scrapq';
@@ -25,7 +27,7 @@ import { scrap, Q } from 'scrapq';
 const html = fetch('https://news.ycombinator.com/').toString();
 
 const data = scrap(html, {
-    articles: Q.list('.athing', {
+    articles: Q.List('.athing', {
         title: Q.text('.title > a'),
         website: Q.text('.title > span.sitebit'),
         link: Q.attr('.title > a', 'href')
@@ -46,7 +48,7 @@ console.log(data);
 // }
 ```
 
-Custom
+### Custom
 
 ```typescript
 import { scrap, Q } from 'scrapq';
@@ -63,7 +65,7 @@ const STR_TO_SCRAP = `
 
 const result = scrap(STR_TO_SCRAP, {
     title: Q.text('h1.title'),
-    items: Q.list('ul>li', {
+    items: Q.List('ul>li', {
         text: Q.text('span')
     }),
     link: Q.link('a.link')
@@ -84,13 +86,11 @@ console.log(result);
 or just
 
 ```typescript
-import { text, list, link } from 'scrapq';
+import { text, List, link } from 'scrapq';
 
 const result = scrap(STR_TO_SCRAP, {
     title: text('h1.title'),
-    items: list('ul>li', {
-        text: text('span')
-    }),
+    texts: List('ul>li', text('span')),
     link: link('a.link')
 });
 ```
@@ -99,7 +99,11 @@ const result = scrap(STR_TO_SCRAP, {
 
 `scrap(html: string, query: Query)`
 
-### Query
+use to scrap json from html. Structure of your output is defined as `query`.
+To define query, use `selectors` or `controls` below/
+
+### Selectors
+
 
 `Q.text(selector: string): string`
 
@@ -117,12 +121,16 @@ get html
 
 get `true/false` if element exists
 
-`Q.list(selector: string, query: Query | QueryType, predicate?): Array<query>`
-
-get list of items
-
-`Q.if(selector: string, condition: (el) => boolean, truthy: Query, falsey: Query)`
+`Q.count(selector: string): number`
 
 get elements count
 
-`Q.count(selector: string): number`
+### Controls
+
+`Q.List(selector: string, query: Query | QueryType, predicate?): Array<query>`
+
+get list of items
+
+`Q.If(selector: string, condition: (el) => boolean, truthy: Query, falsey: Query)`
+
+if condition returns `true`, scrap by `truthy` query otherwise by `falsey` query

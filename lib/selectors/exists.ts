@@ -21,9 +21,18 @@ export const existsResolve = (
  * Check if element exists
  * @param selector - css selector
  */
-export function existsCreator(selector: string, callback?: undefined): Exists<() => boolean>;
-export function existsCreator<F extends (exists: boolean) => any>(selector: string, callback: F): Exists<F>;
-export function existsCreator<F extends (exists: boolean) => any>(selector: string, callback?: undefined | F) {
+export function existsCreator(
+	selector: string,
+	callback?: undefined
+): Exists<() => boolean>;
+export function existsCreator<F extends (exists: boolean) => any>(
+	selector: string,
+	callback: F
+): Exists<F>;
+export function existsCreator<F extends (exists: boolean) => any>(
+	selector: string,
+	callback?: undefined | F
+) {
 	return {
 		_type: "EXISTS",
 		selector,

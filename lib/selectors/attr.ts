@@ -21,16 +21,28 @@ export function attrResolve(
 		const attribute = el.attr(queryType.attribute);
 		return queryType.callback(attribute);
 	}
-};
+}
 
 /**
  * Get html attribute
  * @param selector - css selector
  * @param attribute - html attribute to scrap
  */
-export function attrCreator(selector: string, attribute: string, callback?: undefined): Attr<() => string>;
-export function attrCreator<F extends (attribute: string) => any>(selector: string, attribute: string, callback: F): Attr<F>;
-export function attrCreator<F extends (attribute: string) => any>(selector: string, attribute: string, callback?: undefined | F) {
+export function attrCreator(
+	selector: string,
+	attribute: string,
+	callback?: undefined
+): Attr<() => string>;
+export function attrCreator<F extends (attribute: string) => any>(
+	selector: string,
+	attribute: string,
+	callback: F
+): Attr<F>;
+export function attrCreator<F extends (attribute: string) => any>(
+	selector: string,
+	attribute: string,
+	callback?: undefined | F
+) {
 	return {
 		_type: "ATTR",
 		selector,
@@ -38,4 +50,3 @@ export function attrCreator<F extends (attribute: string) => any>(selector: stri
 		attribute
 	} as Attr<any>;
 }
-

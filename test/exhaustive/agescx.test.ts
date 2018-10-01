@@ -1,29 +1,27 @@
 import { readFileSync } from "fs";
 import { scrap, List, text, link, html } from "../../lib";
 
-const shtml = readFileSync('./test/exhaustive/agescx.html').toString();
+const shtml = readFileSync("./test/exhaustive/agescx.html").toString();
 
-describe('agescx documentation', () => {
+describe("agescx documentation", () => {
+	it("should get all navigation items from agescx", () => {
+		const result = scrap(shtml, {
+			navs: List("ul.navbar-nav>li:not(.disabled)", {
+				text: text("li > a"),
+				link: link("li > a"),
+				submenu: List("ul.dropdown-menu>li", {
+					text: text("li > a"),
+					link: link("li > a")
+				})
+			}),
+			title: text("h1"),
+			content: html('div[role="main"]')
+		});
 
-    it('should get all navigation items from agescx', () => {
-        const result = scrap(shtml, {
-            navs: List('ul.navbar-nav>li:not(.disabled)', {
-                text: text('li > a'),
-                link: link('li > a'),
-                submenu: List('ul.dropdown-menu>li', {
-                    text: text('li > a'),
-                    link: link('li > a')
-                })
-            }),
-            title: text('h1'),
-            content: html('div[role="main"]')
-        });
-
-        expect(result.navs.length).toBe(9);
-        expect(result.navs[2].submenu.length).toBe(2);
-        expect(result.navs[2].submenu[0].text).toBe('Adding new unit');
-        expect(result.content.length).toBeGreaterThan(30);
-        expect(result.title).toBe('Agescx Documentation');
-    });
-
+		expect(result.navs.length).toBe(9);
+		expect(result.navs[2].submenu.length).toBe(2);
+		expect(result.navs[2].submenu[0].text).toBe("Adding new unit");
+		expect(result.content.length).toBeGreaterThan(30);
+		expect(result.title).toBe("Agescx Documentation");
+	});
 });

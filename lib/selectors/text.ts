@@ -26,9 +26,18 @@ export const textResolve = (
  * Get inner text
  * @param selector - css selector
  */
-export function textCreator(selector: string, callback?: undefined): Text<() => string>;
-export function textCreator<F extends (text: string) => any>(selector: string, callback: F): Text<F>;
-export function textCreator<F extends (text: string) => any>(selector: string, callback?: undefined | F) {
+export function textCreator(
+	selector: string,
+	callback?: undefined
+): Text<() => string>;
+export function textCreator<F extends (text: string) => any>(
+	selector: string,
+	callback: F
+): Text<F>;
+export function textCreator<F extends (text: string) => any>(
+	selector: string,
+	callback?: undefined | F
+) {
 	return {
 		_type: "TEXT",
 		selector,

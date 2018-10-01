@@ -24,7 +24,10 @@ export const selectResolve = <C extends (el: Cheerio) => any>(
  * @param selector - css selector
  * @param callback - callback with cheerio element
  */
-export function selectCreator<F extends (el: Cheerio) => any>(selector: string, callback: F): Select<F> {
+export function selectCreator<F extends (el: Cheerio) => any>(
+	selector: string,
+	callback: F
+): Select<F> {
 	return {
 		_type: "SELECT",
 		callback: callback ? callback : (el: Cheerio) => el,

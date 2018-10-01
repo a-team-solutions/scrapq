@@ -26,9 +26,18 @@ export const linkResolve = (
  * Get link from `href` attribute
  * @param selector - css selector
  */
-export function linkCreator(selector: string, callback?: undefined): Link<() => string>;
-export function linkCreator<F extends (link: string) => any>(selector: string, callback: F): Link<F>;
-export function linkCreator<F extends (link: string) => any>(selector: string, callback?: undefined | F) {
+export function linkCreator(
+	selector: string,
+	callback?: undefined
+): Link<() => string>;
+export function linkCreator<F extends (link: string) => any>(
+	selector: string,
+	callback: F
+): Link<F>;
+export function linkCreator<F extends (link: string) => any>(
+	selector: string,
+	callback?: undefined | F
+) {
 	return {
 		_type: "LINK",
 		selector,

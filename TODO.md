@@ -4,5 +4,6 @@
 - [x] add if control
 - [ ] better context passing (if)
 - [ ] fix test for non existing elements
-- [ ] test nested `text()` and `html()`
-- [ ] test nested lists
+- [x] test nested `text()` and `html()`
+- [x] test nested lists
+- [x] callback function to convert selector output

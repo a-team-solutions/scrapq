@@ -22,12 +22,21 @@ export const countResolve = (
  * Count elements
  * @param selector - css selector
  */
-export function countCreator(selector: string, callback?: undefined): Count<() => number>;
-export function countCreator<F extends (count: number) => any>(selector: string, callback: F): Count<F>;
-export function countCreator<F extends (count: number) => any>(selector: string, callback?: undefined | F) {
+export function countCreator(
+	selector: string,
+	callback?: undefined
+): Count<() => number>;
+export function countCreator<F extends (count: number) => any>(
+	selector: string,
+	callback: F
+): Count<F>;
+export function countCreator<F extends (count: number) => any>(
+	selector: string,
+	callback?: undefined | F
+) {
 	return {
 		_type: "COUNT",
 		selector,
-		callback: callback ? callback : (count: number) => count,
+		callback: callback ? callback : (count: number) => count
 	} as Count<any>;
 }

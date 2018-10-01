@@ -28,7 +28,7 @@ describe('Basic', () => {
 
     it('should scrap items from <span/>', () => {
         const result = scrap(STR_TO_SCRAP, {
-            items: Q.list('li', {
+            items: Q.List('li', {
                 text: Q.text('span')
             })
         });
@@ -52,7 +52,7 @@ describe('Basic', () => {
 
     it('should exists .msg inside list', () => {
         const result = scrap(STR_TO_SCRAP, {
-            items: Q.list('li', {
+            items: Q.List('li', {
                 hasMsg: Q.exists('span.msg')
             })
         });
@@ -64,7 +64,7 @@ describe('Basic', () => {
 
     it('should scrap text from <li><span/>', () => {
         const result = scrap(STR_TO_SCRAP, {
-            items: Q.list('li', {
+            items: Q.List('li', {
                 text: Q.text('span')
             })
         });
@@ -74,7 +74,7 @@ describe('Basic', () => {
 
     it('should scrap text from <span/> by omitting <li/>', () => {
         const result = scrap(STR_TO_SCRAP, {
-            items: Q.list('span', {
+            items: Q.List('span', {
                 text: Q.text('')
             })
         });
@@ -91,7 +91,7 @@ describe('Basic', () => {
 
     it('should get list of texts', () => {
         const result = scrap(STR_TO_SCRAP, {
-            texts: Q.list('li', Q.text('span'))
+            texts: Q.List('li', Q.text('span'))
         });
         expect(result.texts).toEqual([
             'Guten Tag',
@@ -141,7 +141,7 @@ describe('Basic', () => {
 
     it('should use predicate filter on list selector', () => {
         const result = scrap(STR_TO_SCRAP, {
-            items: Q.list('span', {
+            items: Q.List('span', {
                 msg: Q.text('')
             }, (el) => el.hasClass('msg'))
         });
@@ -154,7 +154,7 @@ describe('Basic', () => {
     });
 
     it('should use only selector to scrap <span/>', () => {
-        const spans = scrap(STR_TO_SCRAP, Q.list('span', Q.text('')));
+        const spans = scrap(STR_TO_SCRAP, Q.List('span', Q.text('')));
         expect(spans.length).toBe(3);
         expect(spans[0]).toBe('Guten Tag');
     });
