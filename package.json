@@ -9,6 +9,7 @@
     "test:basic": "jasmine-ts ./test/basic.test.ts",
     "test:exhaustive": "jasmine-ts ./test/**/*.ts",
     "build": "tsc",
+    "build:web": "webpack --mode=production",
     "prettify": "npm run prettify:src; npm run prettify:test",
     "prettify:src": "prettier --write ./lib/**/*.ts",
     "prettify:test": "prettier --write ./test/**/*.ts"
@@ -30,7 +31,10 @@
     "jasmine": "^3.1.0",
     "jasmine-ts": "^0.2.1",
     "prettier": "^1.13.7",
-    "typescript": "^3.0.3"
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.0.3",
+    "webpack": "^4.29.0",
+    "webpack-cli": "^3.2.1"
   },
   "dependencies": {
     "@types/cheerio": "^0.22.8",
