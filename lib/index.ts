@@ -25,15 +25,14 @@ import { linkCreator as link } from "./selectors/link";
 import { listCreator as List } from './controls/list';
 import { ifCreator as If } from './controls/if';
 
-export const Q = {
-	If,
+export const $ = {
+	if: If,
+	list: List,
 	attr,
 	exists,
 	html,
-	List,
 	text,
 	select,
 	count,
 	link
 };
-

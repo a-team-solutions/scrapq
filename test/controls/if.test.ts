@@ -1,11 +1,11 @@
-import { scrap, Q } from "../../lib";
+import { scrap, $ } from "../../lib";
 import { html } from "../data";
 
 describe("if", () => {
 	it("should use truthy condition", () => {
 		const result = scrap(
 			html,
-			Q.If(".title", el => !!el, Q.text(".title"), Q.text(".msg"))
+			$.if(".title", el => !!el, $.text(".title"), $.text(".msg"))
 		);
 		expect(result).toBe("Hello");
 	});
@@ -13,7 +13,7 @@ describe("if", () => {
 	it("should use falsey condition", () => {
 		const result = scrap(
 			html,
-			Q.If(".notexisting", el => !el, Q.text(".title"), { msg: Q.text(".msg") })
+			$.if(".notexisting", el => !el, $.text(".title"), { msg: $.text(".msg") })
 		);
 		expect(result).toEqual({ msg: "Ciao" });
 	});
@@ -21,11 +21,11 @@ describe("if", () => {
 	it("should use truthy condition and get length", () => {
 		const result = scrap(
 			html,
-			Q.If(
+			$.if(
 				".title",
 				el => !!el,
-				Q.text(".title", text => text.length),
-				Q.text(".msg")
+				$.text(".title", text => text.length),
+				$.text(".msg")
 			)
 		);
 		expect(result).toBe(5);

@@ -21,16 +21,16 @@ Or **Advanced** example, please visit [./test/exhaustive/agescx.test.ts](./test/
 ### Hacker news
 
 ```typescript
-import { scrap, Q } from 'scrapq';
+import { scrap, $ } from 'scrapq';
 
 // `fetch` is not included in library, use your own implementation
 const html = fetch('https://news.ycombinator.com/').toString();
 
 const data = scrap(html, {
-    articles: Q.List('.athing', {
-        title: Q.text('.title > a'),
-        website: Q.text('.title > span.sitebit'),
-        link: Q.attr('.title > a', 'href')
+    articles: $.list('.athing', {  // for every '.athing' selected element in document
+        title: $.text('.title > a'), // get text from '.title > a'
+        link: $.link('.title > a'), // get link (href attr) from '.title > a'
+        website: $.text('.title > span.sitebit'), // get text
     });
 });
 
@@ -51,7 +51,7 @@ console.log(data);
 ### Custom
 
 ```typescript
-import { scrap, Q } from 'scrapq';
+import { scrap, $ } from 'scrapq';
 
 const STR_TO_SCRAP = `
     <h1 class="title">Hello</h1>
@@ -64,11 +64,11 @@ const STR_TO_SCRAP = `
 `;
 
 const result = scrap(STR_TO_SCRAP, {
-    title: Q.text('h1.title'),
-    items: Q.List('ul>li', {
-        text: Q.text('span')
+    title: $.text('h1.title'),
+    items: $.list('ul>li', {
+        text: $.text('span')
     }),
-    link: Q.link('a.link')
+    link: $.link('a.link')
 });
 
 console.log(result);

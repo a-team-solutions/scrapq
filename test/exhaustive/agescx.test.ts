@@ -1,21 +1,21 @@
 import { readFileSync } from "fs";
-import { scrap, List, text, link, html } from "../../lib";
+import { scrap, $ } from "../../lib";
 
 const shtml = readFileSync("./test/exhaustive/agescx.html").toString();
 
 describe("agescx documentation", () => {
 	it("should get all navigation items from agescx", () => {
 		const result = scrap(shtml, {
-			navs: List("ul.navbar-nav>li:not(.disabled)", {
-				text: text("li > a"),
-				link: link("li > a"),
-				submenu: List("ul.dropdown-menu>li", {
-					text: text("li > a"),
-					link: link("li > a")
+			navs: $.list("ul.navbar-nav>li:not(.disabled)", {
+				text: $.text("li > a"),
+				link: $.link("li > a"),
+				submenu: $.list("ul.dropdown-menu>li", {
+					text: $.text("li > a"),
+					link: $.link("li > a")
 				})
 			}),
-			title: text("h1"),
-			content: html('div[role="main"]')
+			title: $.text("h1"),
+			content: $.html('div[role="main"]')
 		});
 
 		expect(result.navs.length).toBe(9);
