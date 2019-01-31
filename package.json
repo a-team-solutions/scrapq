@@ -8,6 +8,7 @@
     "test": "npm run test:basic && npm run test:exhaustive",
     "test:basic": "jasmine-ts ./test/basic.test.ts",
     "test:exhaustive": "jasmine-ts ./test/**/*.ts",
+    "dist": "npm run test; npm run build; npm run build:web",
     "build": "tsc",
     "build:web": "webpack --mode=production",
     "prettify": "npm run prettify:src; npm run prettify:test",
