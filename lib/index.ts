@@ -1,17 +1,7 @@
+export { scrap } from './scrapper';
+
 export { Query, Selector, TypeOfSelector, TypeOfQuery } from './types';
-export { ScrapQuery, ScrapSelector, scrap } from './scrapper';
-
-// Export
-export { attrCreator as attr } from './selectors/attr';
-export { existsCreator as exists } from './selectors/exists';
-export { htmlCreator as html } from './selectors/html';
-export { textCreator as text } from './selectors/text';
-export { selectCreator as select } from "./selectors/select";
-export { countCreator as count } from "./selectors/count";
-export { linkCreator as link } from "./selectors/link";
-
-export { listCreator as List } from './controls/list';
-export { ifCreator as If } from './controls/if';
+export { ScrapQuery, ScrapSelector } from './scrapper';
 
 // Import
 import { attrCreator as attr } from './selectors/attr';
