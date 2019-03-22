@@ -17,13 +17,4 @@ describe("select", () => {
 		expect(result.items.length).toBe(3);
 		expect(result.items[2].text).toBe("Bonjour");
 	});
-
-	it("should use predicate to only scrap .msg", () => {
-		const result = scrap(
-			html,
-			$.list("span", $.text(""), el => el.hasClass("msg"))
-		);
-		expect(result.length).toBe(1);
-		expect(result).toEqual(["Ciao"]);
-	});
 });

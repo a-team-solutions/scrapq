@@ -7,11 +7,6 @@ describe("attr", () => {
 		expect(result).toBe("/read-more");
 	});
 
-	it("should scrap href attr from an <a/> and split it by -", () => {
-		const result = scrap(html, $.attr("a", "href", attr => attr.split("-")));
-		expect(result).toEqual(["/read", "more"]);
-	});
-
 	it("should scrap data-extra from <div/>", () => {
 		const result = scrap(html, $.attr(".footer", "data-extra"));
 		expect(result).toBe("footer");

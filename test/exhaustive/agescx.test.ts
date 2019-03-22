@@ -8,10 +8,10 @@ describe("agescx documentation", () => {
 		const result = scrap(shtml, {
 			navs: $.list("ul.navbar-nav>li:not(.disabled)", {
 				text: $.text("li > a"),
-				link: $.link("li > a"),
+				link: $.attr("li > a", "href"),
 				submenu: $.list("ul.dropdown-menu>li", {
 					text: $.text("li > a"),
-					link: $.link("li > a")
+					link: $.attr("li > a", "href")
 				})
 			}),
 			title: $.text("h1"),
