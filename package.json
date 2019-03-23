@@ -1,6 +1,6 @@
 {
   "name": "scrapq",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "description": "Lightweight Typescript library for scrapping html",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -10,7 +10,8 @@
     "test:basic": "jasmine-ts ./test/basic.test.ts",
     "test:exhaustive": "jasmine-ts ./test/**/*.ts",
     "dist": "npm run test; npm run build; npm run build:web",
-    "build": "tsc && npm run build:web && npm run build:dts",
+    "build": "npm run build:node && npm run build:web && npm run build:dts",
+    "build:node": "tsc",
     "build:web": "webpack --mode=production",
     "build:dts": "dts-bundle --name scrapq --main ./dist/index.d.ts"
   },

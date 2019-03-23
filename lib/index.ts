@@ -16,14 +16,14 @@ function scrapSelector($: CheerioStatic, context: Cheerio, selector: AnySelector
             const text = (selector.select === "")
                 ? $(context).text()
                 : $(selector.select, context).text();
-            return text;
+            return text || text.trim();
         }
         case "attr": {
             const el = (selector.select === "")
                 ? context
                 : $(selector.select, context);
             const attr = el.attr(selector.attr);
-            return attr.trim();
+            return attr;
         }
         case "count": {
             const els = $(selector.select, context);
