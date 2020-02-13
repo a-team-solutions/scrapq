@@ -4,16 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## [1.2.0] - 2018-MM-DD
+## [X.Y.Z] - YYYY-MM-DD
 
-- Added `If` control
-- Added callback function for converting output for selectors
-- Added `TODO.md`
-- Extend It is possible to scrap also using `selectors` in controls
-- Extend split to `/selectors` and `/controls`
-- Extend `/test` structure
-- Fix Selectors are using `_type` instead of `type`
-- Fix Context has proper type
+## [2.0.0] - 2020-13-02
+
+New version with breaking changes is released. This kind of version has very
+simple API and its more lightweight (17KiB).
 
 ## [1.1.0] - 2018-08-05
 
