@@ -1,6 +1,5 @@
 # ScrapQ
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/dderevjanik/scrapq.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/dderevjanik/scrapq.svg?branch=master)](https://travis-ci.org/dderevjanik/scrapq)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
@@ -86,12 +85,12 @@ console.log(result);
 or just
 
 ```typescript
-import { text, List, link } from 'scrapq';
+import { scrap, $ } from 'scrapq';
 
 const result = scrap(STR_TO_SCRAP, {
-    title: text('h1.title'),
-    texts: List('ul>li', text('span')),
-    link: link('a.link')
+    title: $.text('h1.title'),
+    texts: $.list('ul>li', $.text('span')),
+    link: $.link('a.link')
 });
 ```
 
@@ -117,10 +116,6 @@ get attribute from an element
 
 get html
 
-`Q.exists(selector: string): boolean`
-
-get `true/false` if element exists
-
 `Q.count(selector: string): number`
 
 get elements count
@@ -130,7 +125,3 @@ get elements count
 `Q.List(selector: string, query: Query | QueryType, predicate?): Array<query>`
 
 get list of items
-
-`Q.If(selector: string, condition: (el) => boolean, truthy: Query, falsey: Query)`
-
-if condition returns `true`, scrap by `truthy` query otherwise by `falsey` query
