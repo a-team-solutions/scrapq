@@ -1,24 +1,31 @@
+import test from "tape";
 import { scrap, $ } from "../../lib";
 import { html } from "../data";
 
-describe("exists", () => {
-	it("should exists <li/> element", () => {
+test("exists", (main) => {
+
+	test("should exists <li/> element", (t) => {
 		const result = scrap(html, $.exists("li"));
-		expect(result).toBe(true);
+        t.equal(result, true);
+        t.end();
 	});
 
-	it("should not exists <h4> element", () => {
+	test("should not exists <h4> element", (t) => {
 		const result = scrap(html, $.exists("h4"));
-		expect(result).toBe(false);
+        t.equal(result, false);
+        t.end();
 	});
 
-	it("should exists using query", () => {
+	test("should exists using query", (t) => {
 		const result = scrap(html, {
             hasTitle: $.exists("h1"),
             hasSubtitle: $.exists("h4"),
 
 		});
-        expect(result.hasTitle).toBe(true);
-		expect(result.hasSubtitle).toBe(false);
-	});
+        t.equal(result.hasTitle, true);
+        t.equal(result.hasSubtitle, false);
+        t.end();
+    });
+
+    main.end();
 });

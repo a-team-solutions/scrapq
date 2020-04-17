@@ -1,14 +1,12 @@
 {
   "name": "scrapq",
-  "version": "2.1.0",
+  "version": "2.0.1",
   "description": "Lightweight Typescript library for scrapping html",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "typings": "./dist/index.d.ts",
   "scripts": {
-    "test": "npm run test:basic && npm run test:exhaustive",
-    "test:basic": "jasmine-ts ./test/basic.test.ts",
-    "test:exhaustive": "jasmine-ts ./test/**/*.ts",
+    "test": "ts-node node_modules/tape/bin/tape test/**/*.ts",
     "dist": "npm run test; npm run build; npm run build:web",
     "build": "npm run build:node && npm run build:web && npm run build:dts",
     "build:node": "tsc",
@@ -27,11 +25,10 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/jasmine": "^2.8.16",
-    "@types/node": "^10.17.15",
-    "jasmine": "^3.5.0",
-    "jasmine-ts": "^0.2.1",
+    "@types/tape": "^4.2.34",
+    "tape": "^4.13.2",
     "ts-loader": "^5.4.5",
+    "ts-node": "^8.8.2",
     "typescript": "^3.7.5",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11"

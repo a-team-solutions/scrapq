@@ -1,3 +1,4 @@
+import test from "tape";
 import { scrap, $ } from '../lib';
 
 const STR_TO_SCRAP = `
@@ -10,97 +11,108 @@ const STR_TO_SCRAP = `
     <a href="/read-more">read more ...</a>
 `;
 
-describe('Basic', () => {
+test('Basic', (main) => {
 
-    it('should scrap <h1/> text from string', () => {
+    test('should scrap <h1/> text from string', (t) => {
         const result = scrap(STR_TO_SCRAP, {
             title: $.text('h1.title')
         });
-        expect(result).toEqual({ title: 'Hello'});
+        t.equal(result, { title: 'Hello'});
+        t.end();
     });
 
-    it('should scrap attributes from <h1/>', () => {
+    test('should scrap attributes from <h1/>', (t) => {
         const result = scrap(STR_TO_SCRAP, {
             title: $.attr('h1.title', 'class')
 		});
-        expect(result).toEqual({ title: 'title'});
+        t.equal(result, { title: 'title'});
+        t.end();
     });
 
-    it('should scrap items from <span/>', () => {
+    test('should scrap items from <span/>', (t) => {
         const result = scrap(STR_TO_SCRAP, {
             items: $.list('li', {
                 text: $.text('span')
             })
         });
-        expect(result.items.length).toBe(3);
-        expect(result.items[2].text).toBe('Bonjour')
+        t.equal(result.items.length, 3);
+        t.equal(result.items[2].text, 'Bonjour');
+        t.end();
     });
 
-    it('should scrap text from <li><span/>', () => {
+    test('should scrap text from <li><span/>', (t) => {
         const result = scrap(STR_TO_SCRAP, {
             items: $.list('li', {
                 text: $.text('span')
             })
         });
-        expect(result.items.length).toBe(3);
-        expect(result.items[2].text).toBe('Bonjour')
+        t.equal(result.items.length, 3);
+        t.equal(result.items[2].text, 'Bonjour');
+        t.end();
     });
 
-    it('should scrap text from <span/> by omitting <li/>', () => {
+    test('should scrap text from <span/> by omitting <li/>', (t) => {
         const result = scrap(STR_TO_SCRAP, {
             items: $.list('span', {
                 text: $.text('')
             })
         });
-        expect(result.items.length).toBe(3);
-        expect(result.items[2].text).toBe('Bonjour')
+        t.equal(result.items.length, 3);
+        t.equal(result.items[2].text, 'Bonjour');
+        t.end();
     });
 
-    it('should get list of texts', () => {
+    test('should get list of texts', (t) => {
         const result = scrap(STR_TO_SCRAP, {
             texts: $.list('li', $.text('span'))
         });
-        expect(result.texts).toEqual([
+        t.equals(result.texts, [
             'Guten Tag',
             'Ciao',
             'Bonjour'
         ]);
+        t.end();
     });
 
-    it('should user deep query', () => {
+    test('should user deep query', (t) => {
         const result = scrap(STR_TO_SCRAP, {
             title: $.text('.title'),
             data: {
                 msg: $.text('.msg')
             }
         });
-        expect(result.title).toBe('Hello');
-        expect(result.data.msg).toBe('Ciao');
+        t.equal(result.title, 'Hello');
+        t.equal(result.data.msg, 'Ciao');
+        t.end();
     });
 
-    it('should count <span/> elements', () => {
+    test('should count <span/> elements', (t) => {
         const result = scrap(STR_TO_SCRAP, {
             spanCount: $.count('span')
         });
-        expect(result.spanCount).toBe(3);
+        t.equal(result.spanCount, 3);
+        t.end();
     });
 
-    it('should count not exists element', () => {
+    test('should count not exists element', (t) => {
         const result = scrap(STR_TO_SCRAP, {
             spanCount: $.count('table')
         });
-        expect(result.spanCount).toBe(0);
+        t.equal(result.spanCount, 0);
+        t.end();
     });
 
-    it('should use only selector to scrap title', () => {
+    test('should use only selector to scrap title', (t) => {
         const title = scrap(STR_TO_SCRAP, $.text('.title'));
-        expect(title).toBe('Hello');
+        t.equal(title, 'Hello');
     });
 
-    it('should use only selector to scrap <span/>', () => {
+    test('should use only selector to scrap <span/>', (t) => {
         const spans = scrap(STR_TO_SCRAP, $.list('span', $.text('')));
-        expect(spans.length).toBe(3);
-        expect(spans[0]).toBe('Guten Tag');
+        t.equal(spans.length, 3);
+        t.equal(spans[0], 'Guten Tag');
+        t.end();
     });
 
+    main.end();
 });

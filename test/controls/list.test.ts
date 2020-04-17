@@ -1,20 +1,26 @@
+import test from "tape";
 import { scrap, $ } from "../../lib";
 import { html } from "../data";
 
-describe("select", () => {
-	it("should scrap items from <span/>", () => {
+test("select", (main) => {
+
+	test("should scrap items from <span/>", (t) => {
 		const spans = scrap(html, $.list("span", $.text("")));
-		expect(spans.length).toBe(3);
-		expect(spans[0]).toBe("Guten Tag");
+		t.equal(spans.length, 3);
+		t.equal(spans[0], "Guten Tag");
+		t.end();
 	});
 
-	it("should scrap items from <span/> using query", () => {
+	test("should scrap items from <span/> using query", (t) => {
 		const result = scrap(html, {
 			items: $.list("li", {
 				text: $.text("span")
 			})
 		});
-		expect(result.items.length).toBe(3);
-		expect(result.items[2].text).toBe("Bonjour");
+		t.equal(result.items.length, 3);
+		t.equal(result.items[2].text, "Bonjour");
+		t.end();
 	});
+
+	main.end();
 });

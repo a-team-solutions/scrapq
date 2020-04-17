@@ -1,26 +1,34 @@
+import test from "tape";
 import { scrap, $ } from "../../lib";
 import { html } from "../data";
 
-describe("count", () => {
-	it("should count <li/> elements", () => {
+test("count", (main) => {
+
+	test("should count <li/> elements", (t) => {
 		const result = scrap(html, $.count("li"));
-		expect(result).toBe(3);
+		t.equal(result, 3);
+		t.end();
 	});
 
-	it("should count <h1/>", () => {
+	test("should count <h1/>", (t) => {
 		const result = scrap(html, $.count("h1"));
-		expect(result).toBe(1);
+		t.equal(result, 1);
+		t.end();
 	});
 
-	it("should count non-existing element", () => {
+	test("should count non-existing element", (t) => {
 		const result = scrap(html, $.count("h3"));
-		expect(result).toBe(0);
+		t.equal(result, 0);
+		t.end();
 	});
 
-	it("should count using query", () => {
+	test("should count using query", (t) => {
 		const result = scrap(html, {
 			liCounts: $.count("li")
 		});
-		expect(result.liCounts).toBe(3);
+		t.equal(result.liCounts, 3);
+		t.end();
 	});
+
+	main.end();
 });

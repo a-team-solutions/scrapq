@@ -1,10 +1,12 @@
+import test from "tape";
 import { readFileSync } from "fs";
 import { scrap, $ } from "../../lib";
 
 const shtml = readFileSync("./test/exhaustive/agescx.html").toString();
 
-describe("agescx documentation", () => {
-	it("should get all navigation items from agescx", () => {
+test("agescx documentation", (main) => {
+
+	test("should get all navigation items from agescx", (t) => {
 		const result = scrap(shtml, {
 			navs: $.list("ul.navbar-nav>li:not(.disabled)", {
 				text: $.text("li > a"),
@@ -18,10 +20,13 @@ describe("agescx documentation", () => {
 			content: $.html('div[role="main"]')
 		});
 
-		expect(result.navs.length).toBe(9);
-		expect(result.navs[2].submenu.length).toBe(2);
-		expect(result.navs[2].submenu[0].text).toBe("Adding new unit");
-		expect(result.content.length).toBeGreaterThan(30);
-		expect(result.title).toBe("Agescx Documentation");
+		t.equal(result.navs.length, 9);
+		t.equal(result.navs[2].submenu.length, 2);
+		t.equal(result.navs[2].submenu[0].text, "Adding new unit");
+		t.equal(result.content.length, 1114);
+		t.equal(result.title, "Agescx Documentation");
+		t.end();
 	});
+
+	main.end();
 });

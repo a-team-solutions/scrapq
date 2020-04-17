@@ -1,21 +1,28 @@
+import test from "tape";
 import { scrap, $ } from "../../lib";
 import { html } from "../data";
 
-describe("text", () => {
-	it("should get text from .msg", () => {
+test("text", (main) => {
+
+	test("should get text from .msg", (t) => {
 		const result = scrap(html, $.text(".msg"));
-		expect(result).toBe("Ciao");
+		t.equal(result, "Ciao");
+        t.end();
 	});
 
-	it("should not get text from non existing element", () => {
+	test("should not get text from non existing element", (t) => {
 		const result = scrap(html, $.text("h3"));
-		expect(result).toBe("");
+		t.equal(result, "");
+        t.end();
 	});
 
-	it("should count using query", () => {
+	test("should count using query", (t) => {
 		const result = scrap(html, {
 			link: $.text("a")
 		});
-		expect(result.link).toBe("read more ...");
+		t.equal(result.link, "read more ...");
+        t.end();
 	});
+
+	main.end();
 });

@@ -1,21 +1,28 @@
+import test from "tape";
 import { scrap, $ } from "../../lib";
 import { html } from "../data";
 
-describe("attr", () => {
-	it("should scrap href attr from an <a/>", () => {
+test("attr", (main) => {
+
+	test("should scrap href attr from an <a/>", (t) => {
 		const result = scrap(html, $.attr("a", "href"));
-		expect(result).toBe("/read-more");
+		t.equal(result, "/read-more");
+		t.end();
 	});
 
-	it("should scrap data-extra from <div/>", () => {
+	test("should scrap data-extra from <div/>", (t) => {
 		const result = scrap(html, $.attr(".footer", "data-extra"));
-		expect(result).toBe("footer");
+		t.equal(result, "footer");
+		t.end();
 	});
 
-	it("should scrap data using query", () => {
+	test("should scrap data using query", (t) => {
 		const result = scrap(html, {
 			footer: $.attr(".footer", "data-extra")
 		});
-		expect(result.footer).toBe("footer");
+		t.equal(result.footer, "footer");
+		t.end();
 	});
+
+	main.end();
 });
