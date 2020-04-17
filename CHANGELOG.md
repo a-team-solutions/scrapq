@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [2.1.0] - 2020-18-04
 
-- Added support for `exists` selector
+- Added support for `exist` selector
 - Rename `GeType` to `TypeOfQuery`
 
 ## [2.0.0] - 2020-13-02

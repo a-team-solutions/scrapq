@@ -19,14 +19,14 @@ interface HtmlType {
     select: string;
 }
 
-interface ExistsType {
-    type: "exists",
+interface ExistType {
+    type: "exist",
     select: string;
 }
 
 // EXPORTS
 
-export type AnySelector = TextType | AttrType | CountType | HtmlType | ExistsType;
+export type AnySelector = TextType | AttrType | CountType | HtmlType | ExistType;
 
 // DSL
 
@@ -59,9 +59,9 @@ export function html(selector: string): HtmlType {
     };
 }
 
-export function exists(selector: string): ExistsType {
+export function exist(selector: string): ExistType {
     return {
-        type: "exists",
+        type: "exist",
         select: selector
     };
 }

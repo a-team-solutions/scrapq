@@ -1,5 +1,5 @@
 import { load } from "cheerio";
-import { AnySelector, text, count, attr, html, exists } from "./selectors";
+import { AnySelector, text, count, attr, html, exist } from "./selectors";
 import { Query, TypeOfQuery } from "./helpers";
 import { AnyControl, list } from "./controls";
 
@@ -30,10 +30,10 @@ function scrapSelector($: CheerioStatic, context: Cheerio, selector: AnySelector
             const count = els.length;
             return count;
         }
-        case "exists": {
+        case "exist": {
             const els = $(selector.select, context);
-            const exists = els.length ? true : false;
-            return exists;
+            const exist = els.length ? true : false;
+            return exist;
         }
         case "list": {
             const result: any[] = [];
@@ -96,5 +96,5 @@ export const $ = {
     count,
     list,
     html,
-    exists,
+    exist,
 };

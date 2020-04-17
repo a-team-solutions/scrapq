@@ -10,7 +10,7 @@ export interface SelectorResultType {
     attr: string;
     count: number;
     html: string;
-    exists: boolean;
+    exist: boolean;
 }
 
 export type TypeOfQuery<Q extends AnySelector | ListType<any> | Query> = {

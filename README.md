@@ -101,24 +101,28 @@ To define query, use `selectors` or `controls` below/
 ### Selectors
 
 
-`Q.text(selector: string): string`
+`$.text(selector: string): string`
 
 get text from an element
 
-`Q.attr(selector: string, htmlAttribute: string): string`
+`$.attr(selector: string, htmlAttribute: string): string`
 
 get attribute from an element
 
-`Q.html(selector: string): string`
+`$.html(selector: string): string`
 
 get html
 
-`Q.count(selector: string): number`
+`$.count(selector: string): number`
 
 get elements count
 
+`$.exist(selector: string): boolean`
+
+check if element exists
+
 ### Controls
 
-`Q.List(selector: string, query: Query | QueryType, predicate?): Array<query>`
+`$.list(selector: string, query: Query | QueryType, predicate?): Array<query>`
 
 get list of items

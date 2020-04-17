@@ -2,24 +2,24 @@ import test from "tape";
 import { scrap, $ } from "../../lib";
 import { html } from "../data";
 
-test("exists", (main) => {
+test("exist", (main) => {
 
 	test("should exists <li/> element", (t) => {
-		const result = scrap(html, $.exists("li"));
+		const result = scrap(html, $.exist("li"));
         t.equal(result, true);
         t.end();
 	});
 
 	test("should not exists <h4> element", (t) => {
-		const result = scrap(html, $.exists("h4"));
+		const result = scrap(html, $.exist("h4"));
         t.equal(result, false);
         t.end();
 	});
 
 	test("should exists using query", (t) => {
 		const result = scrap(html, {
-            hasTitle: $.exists("h1"),
-            hasSubtitle: $.exists("h4"),
+            hasTitle: $.exist("h1"),
+            hasSubtitle: $.exist("h4"),
 
 		});
         t.equal(result.hasTitle, true);
