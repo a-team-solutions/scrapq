@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [X.Y.Z] - YYYY-MM-DD
 
+## [2.1.0] - 2020-18-04
+
+- Added support for `exists` selector
+- Rename `GeType` to `TypeOfQuery`
+
 ## [2.0.0] - 2020-13-02
 
 New version with breaking changes is released. This kind of version has very

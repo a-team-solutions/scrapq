@@ -1,6 +1,6 @@
 import { load } from "cheerio";
-import { AnySelector, text, count, attr, html } from "./selectors";
-import { Query, GetResult } from "./helpers";
+import { AnySelector, text, count, attr, html, exists } from "./selectors";
+import { Query, TypeOfQuery } from "./helpers";
 import { AnyControl, list } from "./controls";
 
 function isSelectorOrControl(test: any): test is (AnySelector | AnyControl) {
@@ -16,7 +16,7 @@ function scrapSelector($: CheerioStatic, context: Cheerio, selector: AnySelector
             const text = (selector.select === "")
                 ? $(context).text()
                 : $(selector.select, context).text();
-            return text || text.trim();
+            return text && text.trim();
         }
         case "attr": {
             const el = (selector.select === "")
@@ -29,6 +29,11 @@ function scrapSelector($: CheerioStatic, context: Cheerio, selector: AnySelector
             const els = $(selector.select, context);
             const count = els.length;
             return count;
+        }
+        case "exists": {
+            const els = $(selector.select, context);
+            const exists = els.length ? true : false;
+            return exists;
         }
         case "list": {
             const result: any[] = [];
@@ -60,7 +65,7 @@ function scrapSelector($: CheerioStatic, context: Cheerio, selector: AnySelector
     }
 }
 
-function scrapQuery<Q extends Query>($: CheerioStatic, context: Cheerio, query: Q, ref: any): GetResult<Q> {
+function scrapQuery<Q extends Query>($: CheerioStatic, context: Cheerio, query: Q, ref: any): TypeOfQuery<Q> {
     Object.keys(query).forEach(prop => {
         const val = query[prop];
 		if (isSelectorOrControl(val)) {
@@ -72,12 +77,10 @@ function scrapQuery<Q extends Query>($: CheerioStatic, context: Cheerio, query: 
 	return ref;
 }
 
-
-
 export function scrap<Q extends Query | AnyControl | AnySelector>(
     html: string,
     query: Q
-): GetResult<Q> {
+): TypeOfQuery<Q> {
     const $ = load(html);
     const root = $.root();
     if (isSelectorOrControl(query)) {
@@ -92,5 +95,6 @@ export const $ = {
     text,
     count,
     list,
-    html
+    html,
+    exists,
 };
