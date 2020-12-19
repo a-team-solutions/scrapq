@@ -7,17 +7,17 @@ export interface ControlTypes<Q> {
 
 // EXPORTS
 
-export interface ListType<Q extends AnySelector | AnyControl | Query> {
+export interface ListOf<Q extends AnySelector | AnyControl | Query> {
     type: "list";
     select: string;
     query: Q;
 }
 
-export type AnyControl = ListType<any>;
+export type AnyControl = ListOf<any>;
 
 // DSL
 
-export function list<Q extends Query | AnyControl | AnySelector>(selector: string, query: Q): ListType<Q> {
+export function list<Q extends Query | AnyControl | AnySelector>(selector: string, query: Q): ListOf<Q> {
     return {
         type: "list",
         select: selector,

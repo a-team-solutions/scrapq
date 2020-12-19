@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [X.Y.Z] - YYYY-MM-DD
 
+## [2.1.2] - 2020-19-12
+
+- Changed internal type names
+- Update all dependencies
+
 ## [2.1.0] - 2020-18-04
 
 - Added support for `exist` selector

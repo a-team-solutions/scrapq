@@ -1,8 +1,10 @@
+const path = require("path");
+
 module.exports = {
     devtool: "inline-source-map",
-    entry: "./lib/index.ts",
+    entry: path.resolve(__dirname, "./lib/index.ts"),
     output: {
-      path: __dirname + "/dist/browser/",
+      path: path.resolve(__dirname, "/dist/browser/"),
       library: "scrapq",
       filename: "scrapq.min.js"
     },
@@ -15,8 +17,18 @@ module.exports = {
     },
     module: {
       rules: [
-        // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
-        { test: /\.tsx?$/, loader: "ts-loader" }
+        // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
+        {
+          test: /\.tsx?$/,
+          use: [
+            {
+              loader: 'ts-loader?configFile="tsconfig.json"',
+              options: {
+                configFile: 'tsconfig.json'
+              }
+            }
+          ]
+        }
       ]
-    }
+    },
   };

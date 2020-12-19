@@ -1,6 +1,6 @@
-import { load } from "cheerio";
+import * as Cheerio from "cheerio";
 import { AnySelector, text, count, attr, html, exist } from "./selectors";
-import { Query, TypeOfQuery } from "./helpers";
+import { Query, QueryOf } from "./helpers";
 import { AnyControl, list } from "./controls";
 
 function isSelectorOrControl(test: any): test is (AnySelector | AnyControl) {
@@ -10,7 +10,7 @@ function isSelectorOrControl(test: any): test is (AnySelector | AnyControl) {
     return false;
 }
 
-function scrapSelector($: CheerioStatic, context: Cheerio, selector: AnySelector | AnyControl) {
+function scrapSelector($: cheerio.Root, context: cheerio.Cheerio, selector: AnySelector | AnyControl) {
     switch (selector.type) {
         case "text": {
             const text = (selector.select === "")
@@ -65,7 +65,7 @@ function scrapSelector($: CheerioStatic, context: Cheerio, selector: AnySelector
     }
 }
 
-function scrapQuery<Q extends Query>($: CheerioStatic, context: Cheerio, query: Q, ref: any): TypeOfQuery<Q> {
+function scrapQuery<Q extends Query>($: cheerio.Root, context: cheerio.Cheerio, query: Q, ref: any): QueryOf<Q> {
     Object.keys(query).forEach(prop => {
         const val = query[prop];
 		if (isSelectorOrControl(val)) {
@@ -80,8 +80,8 @@ function scrapQuery<Q extends Query>($: CheerioStatic, context: Cheerio, query: 
 export function scrap<Q extends Query | AnyControl | AnySelector>(
     html: string,
     query: Q
-): TypeOfQuery<Q> {
-    const $ = load(html);
+): QueryOf<Q> {
+    const $ = Cheerio.load(html);
     const root = $.root();
     if (isSelectorOrControl(query)) {
         return scrapSelector($, root, query) as any;
